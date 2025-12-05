@@ -1,5 +1,4 @@
-import { getAllDBPokemon, getDBPokemonById } from '../models/pokemons.models.js';
-
+import { getAllDBPokemon, getDBPokemonById } from '../models/pokeapp.models.js';
 
 export function getAllPokemon(req, res) {
     const pokemon = getAllDBPokemon();
@@ -11,4 +10,6 @@ export function getPokemonById(req, res) {
     const pokemon = getDBPokemonById(pokemonId);
     res.json(pokemon);
 }
+
+
 

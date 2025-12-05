@@ -20,9 +20,10 @@ export class Pokedex {
 
 
   constructor() {
-    this.pokeappService.loadallPokemons();
-    this.pokemons.set(this.pokeappService.pokemons());
+    this.pokeappService.getPokemons().subscribe(data => {
+    this.pokemons.set(data);
     this.loading.set(false);
+  });
   }
 
   goToDetail(index: number) {

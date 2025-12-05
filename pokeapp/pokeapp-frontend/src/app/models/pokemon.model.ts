@@ -1,5 +1,5 @@
 export interface Pokemon {
-  id: number;
+  id: string;
   name: string;
   height: number;
   weight: number;
