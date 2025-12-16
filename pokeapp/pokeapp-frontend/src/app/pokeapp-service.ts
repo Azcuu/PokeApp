@@ -17,27 +17,28 @@ export class PokeappService {
   constructor(private http: HttpClient) { }
 
   loadAllPokemons(): void {
-    if (this.loaded() || this.loading()) return;
+  if (this.loaded() || this.loading()) return;
 
-    this.loading.set(true);
-    this.error.set(null);
+  this.loading.set(true);
+  this.error.set(null);
 
-    this.http.get<PokemonsResponse>(`${this.baseUrl}/pokemons`).subscribe({
-      next: (response) => {
-        if (response.success && response.data) {
-          this.pokemons.set(response.data);
-          this.loaded.set(true);
-        } else {
-          this.error.set('Error en la respuesta del servidor');
-        }
-        this.loading.set(false);
-      },
-      error: (err) => {
-        console.error('Error loading pokemons:', err);
-        this.error.set('Error al cargar los Pokémon');
-        this.loading.set(false);
-      }
-    });
+  // Cambia de esto:
+  // this.http.get<PokemonsResponse>(`${this.baseUrl}/pokemons`).subscribe({
+
+  // Por esto (aceptar array directo):
+  this.http.get<Pokemon[]>(`${this.baseUrl}/pokemons`).subscribe({
+    next: (response) => {
+      // Ahora response es directamente el array
+      this.pokemons.set(response);
+      this.loaded.set(true);
+      this.loading.set(false);
+    },
+    error: (err) => {
+      console.error('Error loading pokemons:', err);
+      this.error.set('Error al cargar los Pokémon');
+      this.loading.set(false);
+    }
+  });
   }
 
   getPokemonById$(id: number): Observable<Pokemon> {

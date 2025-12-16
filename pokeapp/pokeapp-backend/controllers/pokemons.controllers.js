@@ -1,22 +1,12 @@
-import { getAllDBPokemon, getDBPokemonByType, searchDBPokemonByName, getDBPokemonById } from '../models/pokeapp.models.js';
+import { getAllDBPokemon, getDBPokemonById } from '../models/pokeapp.models.js';
 
 export async function getAllPokemon(req, res) {
-    try {
-        const { type, search } = req.query;
-        let pokemons;
-        
-        if (type) {
-            pokemons = await getDBPokemonByType(type);
-        } else if (search) {
-            pokemons = await searchDBPokemonByName(search);
-        } else {
-            pokemons = await getAllDBPokemon();
-        }
-        
+   try {
+        const pokemons = await getAllDBPokemon();
         res.json(pokemons);
     } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: 'Error obteniendo Pokémon' });
+        console.error('Error al obtener pokémons:', error);
+        res.status(500).json({ error: 'Error obteniendo la lista de pokémons' });
     }
 }
 
