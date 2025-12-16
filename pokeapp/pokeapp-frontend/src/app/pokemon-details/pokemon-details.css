@@ -1,0 +1,25 @@
+.details {
+  padding: 16px 0;
+}
+
+.details img {
+  width: 160px;
+  height: 160px;
+  image-rendering: pixelated;
+  display: block;
+  margin: 12px 0;
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  background: white;
+}

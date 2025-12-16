@@ -1,12 +1,117 @@
-<h1>Pokedex</h1>
+<div class="pokedex-container">
+  <h1>Pokédex</h1>
 
-<div *ngIf="loading()">
-  Cargando pokemons...
-</div>
+  <!-- Estado de carga -->
+  <div *ngIf="loading()" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando Pokémon...</p>
+  </div>
 
-<div class="pokedex-grid" *ngIf="!loading()">
-  <div class="pokemon-card" *ngFor="let p of pokemons(); let i = index" (click)="goToDetail(i)">
-    <img [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + (i+1) + '.png'" [alt]="p.name">
-    <p>{{ p.name | titlecase }}</p>
+  <!-- Error -->
+  <div *ngIf="error() && !loading()" class="error">
+    <h2>😞 Error</h2>
+    <p>{{ error() }}</p>
+    <button (click)="refresh()">Reintentar</button>
+  </div>
+
+  <!-- Contenido principal -->
+  <div *ngIf="!loading() && !error() && loaded()" class="pokedex-content">
+
+    <!-- Filtros -->
+    <div class="filters-section">
+      <div class="search-box">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Buscar Pokémon por nombre..."
+          class="search-input"
+        >
+        <span class="search-icon">🔍</span>
+      </div>
+
+      <div class="type-filter">
+        <select
+          [(ngModel)]="selectedType"
+          class="type-select"
+        >
+          <option value="">Todos los tipos</option>
+          <option *ngFor="let type of pokemonTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+
+        <button
+          *ngIf="searchTerm() || selectedType()"
+          (click)="clearFilters()"
+          class="clear-btn"
+        >
+          Limpiar filtros
+        </button>
+      </div>
+
+      <div class="stats">
+        <span class="total-count">
+          Mostrando {{ filteredPokemons().length }} de {{ pokemons().length }} Pokémon
+        </span>
+      </div>
+    </div>
+
+    <!-- Grid de Pokémon -->
+    <div class="pokemon-grid" *ngIf="filteredPokemons().length > 0">
+      <div
+        *ngFor="let pokemon of filteredPokemons()"
+        class="pokemon-card"
+        [class]="'type-' + getPrimaryType(pokemon)"
+        (click)="goToDetail(pokemon.id)"
+      >
+        <div class="card-header">
+          <span class="pokemon-id">#{{ formatId(pokemon.id) }}</span>
+          <div class="type-badges">
+            <span
+              *ngFor="let type of pokemon.type"
+              class="type-badge"
+            >
+              {{ type }}
+            </span>
+          </div>
+        </div>
+
+        <div class="pokemon-image">
+          <img
+            [src]="pokemon.image.thumbnail || pokemon.image.sprite"
+            [alt]="pokemon.name.english"
+            class="pokemon-sprite"
+            referrerpolicy="no-referrer"
+            (error)="onImageError($event)"
+          >
+        </div>
+
+        <div class="pokemon-info">
+          <h3 class="pokemon-name">{{ pokemon.name.english }}</h3>
+          <p class="pokemon-japanese">{{ pokemon.name.japanese }}</p>
+
+          <div class="pokemon-stats">
+            <div class="stat">
+              <span class="stat-label">HP</span>
+              <span class="stat-value">{{ pokemon.base.HP }}</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">ATK</span>
+              <span class="stat-value">{{ pokemon.base.Attack }}</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">DEF</span>
+              <span class="stat-value">{{ pokemon.base.Defense }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sin resultados -->
+    <div *ngIf="filteredPokemons().length === 0 && !loading()" class="no-results">
+      <p>No se encontraron Pokémon con los filtros aplicados.</p>
+      <button (click)="clearFilters()">Mostrar todos</button>
+    </div>
   </div>
 </div>

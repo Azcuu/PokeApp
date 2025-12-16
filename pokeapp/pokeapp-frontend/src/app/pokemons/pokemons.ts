@@ -16,9 +16,8 @@ PokeappService = inject(PokeappService);
   pokemons = signal<Pokemon[]>([]);
 
   constructor() {
-    this.PokeappService.getPokemons().subscribe(data => {
-    this.pokemons.set(data);
-    });
+    this.PokeappService.loadAllPokemons();
+    this.pokemons.set(this.PokeappService.pokemons());
   }
 
 }

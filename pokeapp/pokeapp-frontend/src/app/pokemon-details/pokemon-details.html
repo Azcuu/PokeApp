@@ -1,1 +1,106 @@
-<div>pokemon details worl!</div>
+<div *ngIf="loading()">Cargando detalles...</div>
+
+<div *ngIf="!loading() && pokemon() as p">
+  <!-- Header -->
+  <div class="pokemon-header">
+    <h1>#{{ p.id.toString().padStart(3, '0') }} - {{ p.name.english | titlecase }}</h1>
+    <h3 class="japanese-name">{{ p.name.japanese }}</h3>
+    <p class="species">{{ p.species || 'Pokémon' }}</p>
+  </div>
+
+  <!-- Imágenes -->
+  <div class="pokemon-images">
+    <img [src]="p.image.sprite" [alt]="p.name.english" class="sprite" referrerpolicy="no-referrer">
+    <img [src]="p.image.hires" [alt]="p.name.english + ' hires'" class="hires" *ngIf="p.image.hires" referrerpolicy="no-referrer">
+  </div>
+
+  <!-- Tipos -->
+  <div class="types-section">
+    <h3>Tipos</h3>
+    <div class="type-badges">
+      <span *ngFor="let t of p.type"
+            [class]="'type-badge type-' + t.toLowerCase()">
+        {{ t | titlecase }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Descripción -->
+  <div class="description" *ngIf="p.description">
+    <h3>Descripción</h3>
+    <p>{{ p.description }}</p>
+  </div>
+
+  <!-- Estadísticas base -->
+  <div class="stats-section">
+    <h3>Estadísticas Base</h3>
+    <div class="stats-grid">
+      <div class="stat-item" *ngFor="let stat of getBaseStatsArray(p.base)">
+        <span class="stat-name">{{ stat.name | titlecase }}</span>
+        <div class="stat-bar-container">
+          <div class="stat-bar" [style.width.%]="getStatPercentage(stat.value)"></div>
+        </div>
+        <span class="stat-value">{{ stat.value }}</span>
+      </div>
+      <div class="stat-total">
+        <strong>Total: {{ getTotalStats(p.base) }}</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Perfil -->
+  <div class="profile-section" *ngIf="p.profile">
+    <h3>Perfil</h3>
+    <div class="profile-grid">
+      <div class="profile-item">
+        <strong>Altura:</strong> {{ p.profile.height }}
+      </div>
+      <div class="profile-item">
+        <strong>Peso:</strong> {{ p.profile.weight }}
+      </div>
+    </div>
+
+    <!-- Habilidades -->
+    <div *ngIf="p.profile.ability.length">
+      <h4>Habilidades</h4>
+      <ul class="abilities-list">
+        <li *ngFor="let abilityPair of p.profile.ability">
+          {{ abilityPair[0] | titlecase }}
+          <span *ngIf="abilityPair[1] === 'true'" class="hidden-ability">
+            (Habilidad Oculta)
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Evolución -->
+  <div class="evolution-section" *ngIf="p.evolution?.next?.length">
+    <h3>Evolución</h3>
+    <div class="evolution-chain">
+      <div *ngFor="let evolution of p.evolution?.next" class="evolution-step">
+        <span class="evolution-to">→ #{{ evolution[0] }}</span>
+        <span class="evolution-method">{{ evolution[1] }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nombres en otros idiomas -->
+  <div class="names-section">
+    <h3>Nombres Internacionales</h3>
+    <div class="names-grid">
+      <div class="name-item">
+        <strong>Inglés:</strong> {{ p.name.english }}
+      </div>
+      <div class="name-item">
+        <strong>Japonés:</strong> {{ p.name.japanese }}
+      </div>
+      <div class="name-item">
+        <strong>Chino:</strong> {{ p.name.chinese }}
+      </div>
+      <div class="name-item">
+        <strong>Francés:</strong> {{ p.name.french }}
+      </div>
+    </div>
+  </div>
+</div>

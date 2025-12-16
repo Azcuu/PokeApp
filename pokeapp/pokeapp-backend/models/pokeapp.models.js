@@ -81,8 +81,8 @@ pokemonSchema.index({ "name.english": 1 });
 pokemonSchema.index({ type: 1 });
 teamSchema.index({ createdBy: 1 });
 
-export const PokemonModel = mongodbInstance.model('Pokemon', pokemonSchema);
-export const TeamModel = mongodbInstance.model('Team', teamSchema);
+export const PokemonModel = mongodbInstance.model('Pokemon', pokemonSchema, 'Pokemons');
+export const TeamModel = mongodbInstance.model('Team', teamSchema, 'Teams');
 
 export async function getAllDBPokemon() {
     return PokemonModel.find().sort({ id: 1 }).lean();
