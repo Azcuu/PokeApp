@@ -81,7 +81,7 @@ export class Pokedex implements OnInit {
 
   // Navegar a detalles
   goToDetail(id: number): void {
-    this.router.navigate(['/pokemon', id]);
+    this.router.navigate(['/pokedex', id]);
   }
 
   // Aplicar filtros

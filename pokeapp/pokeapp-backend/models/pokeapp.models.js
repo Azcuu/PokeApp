@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { mongodbInstance } from "../infrastructure/mongodb-connection.js";
+import { mongodbInstance } from "../infraestructure/mongodb-connection.js";
 
 // Sub-esquemas (usamos { _id: false } para no generar IDs innecesarios en subdocumentos)
 const nameSchema = new mongodbInstance.Schema({

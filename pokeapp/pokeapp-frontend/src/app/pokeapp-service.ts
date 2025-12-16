@@ -22,13 +22,8 @@ export class PokeappService {
   this.loading.set(true);
   this.error.set(null);
 
-  // Cambia de esto:
-  // this.http.get<PokemonsResponse>(`${this.baseUrl}/pokemons`).subscribe({
-
-  // Por esto (aceptar array directo):
   this.http.get<Pokemon[]>(`${this.baseUrl}/pokemons`).subscribe({
     next: (response) => {
-      // Ahora response es directamente el array
       this.pokemons.set(response);
       this.loaded.set(true);
       this.loading.set(false);

@@ -1,1 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
+/* Variables globales */
+:root {
+  --primary-bg: #1a1a2e;
+  --secondary-bg: #16213e;
+  --content-max-width: 1400px;
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  background: var(--primary-bg);
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Contenedor principal */
+.pokedex-container {
+  max-width: var(--content-max-width);
+  margin: 0 auto; /* Centrado sin márgenes verticales */
+  padding: 20px;
+  width: 100%;
+}
