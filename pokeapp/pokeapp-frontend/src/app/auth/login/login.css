@@ -1,0 +1,198 @@
+/* login.css */
+.auth {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.auth h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  font-size: 28px;
+}
+
+.box {
+  display: grid;
+  gap: 15px;
+}
+
+label {
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: -8px;
+  font-size: 14px;
+}
+
+input {
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 2px solid #ddd;
+  font-size: 16px;
+  transition: border 0.3s, box-shadow 0.3s;
+  font-family: inherit;
+}
+
+input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+input::placeholder {
+  color: #95a5a6;
+  opacity: 0.8;
+}
+
+button {
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 10px;
+  font-family: inherit;
+  letter-spacing: 0.5px;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+}
+
+button:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+.error {
+  color: #e74c3c;
+  margin: 10px 0;
+  padding: 12px;
+  background: rgba(231, 76, 60, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid #e74c3c;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.hint {
+  margin-top: 20px;
+  color: #7f8c8d;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.hint a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+  margin-left: 5px;
+}
+
+.hint a:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+/* Estilos específicos para el login */
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #34495e;
+}
+
+.remember-me input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.forgot-password {
+  color: #3498db;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.forgot-password:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+/* Estilos responsivos */
+@media (max-width: 480px) {
+  .auth {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .auth h1 {
+    font-size: 24px;
+  }
+
+  input, button {
+    padding: 10px 12px;
+    font-size: 15px;
+  }
+
+  .login-options {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+}
+
+/* Animación de carga */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.loading {
+  animation: pulse 1.5s infinite;
+}
+
+/* Mejora para inputs de tipo password */
+.password-container {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #7f8c8d;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.toggle-password:hover {
+  color: #3498db;
+}

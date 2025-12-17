@@ -13,7 +13,6 @@ export function authMiddleware(req, res, next) {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.userId = decoded.userId;
     req.username = decoded.username;
-    // NO establecer req.userRole
     
     next();
   } catch (error) {

@@ -1,1 +1,23 @@
-<p>teams works!</p>
+<div class="teams-page">
+  <h1>Teams</h1>
+
+  <p *ngIf="loading">Cargando equipos...</p>
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+  <p *ngIf="!loading && teams.length === 0">
+    No hay equipos todavía.
+  </p>
+
+  <ul *ngIf="teams.length > 0">
+    <li *ngFor="let team of teams">
+      <a [routerLink]="['/teams', team._id]">
+        {{ team.name }}
+      </a>
+      <span class="author"> — {{ team.creatorName }}</span>
+    </li>
+  </ul>
+
+  <hr />
+
+  <a routerLink="/teams/create">Crear equipo</a>
+</div>

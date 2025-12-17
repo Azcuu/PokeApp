@@ -31,6 +31,7 @@ export const routes: Routes = [
   loadComponent: () => import('./auth/login/login').then(m => m.Login),
   title: 'Login'
 },
+
 {
   path: 'register',
   loadComponent: () => import('./auth/register/register').then(m => m.Register),
@@ -40,13 +41,13 @@ export const routes: Routes = [
   // Teams
   {
     path: 'teams/create',
-    loadChildren: () => import('./teams/team-create/team-create').then(m => m.TeamCreate),
+    loadComponent: () => import('./teams/team-create/team-create').then(m => m.TeamCreate),
     canActivate: [AuthGuard],
     title: 'Create Team'
   },
   {
     path: 'teams/edit/:id',
-    loadChildren: () => import('./teams/team-edit/team-edit').then(m => m.TeamEdit),
+    loadComponent: () => import('./teams/team-edit/team-edit').then(m => m.TeamEdit),
     canActivate: [AuthGuard],
     title: 'Edit Team'
   },
@@ -57,7 +58,7 @@ export const routes: Routes = [
   },
   {
     path: 'teams/:id',
-    loadChildren: () => import('./team-details/team-detail').then(m => m.TeamDetail),
+    loadComponent: () => import('./team-details/team-detail').then(m => m.TeamDetail),
     title: 'Team Details'
   },
 ];

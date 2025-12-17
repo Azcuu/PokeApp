@@ -43,7 +43,6 @@
   height: 60px;
   width: auto;
   margin-bottom: 1rem;
-  filter: brightness(0) invert(1);
   opacity: 0.9;
   transition: opacity 0.3s ease;
 }

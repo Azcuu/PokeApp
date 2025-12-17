@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 export interface User {
   id: string;
   username: string;
-  email: string;
+  email?: string;
   avatar?: string;
   bio?: string;
-  role: string;
 }
 
 export interface AuthResponse {
@@ -18,11 +17,11 @@ export interface AuthResponse {
   user: User;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api/auth';
+
+  private apiUrl = 'http://localhost:3000/user';
+
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   private token: string | null = null;
 
@@ -34,35 +33,39 @@ export class AuthService {
     const token = localStorage.getItem('token');
     const userStr = localStorage.getItem('user');
 
-    if (token && userStr) {
-      this.token = token;
-      this.currentUserSubject.next(JSON.parse(userStr));
-    }
+    if (token) this.token = token;
+    if (userStr) this.currentUserSubject.next(JSON.parse(userStr));
   }
 
-  register(username: string, email: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, {
-      username, email, password
-    }).pipe(
-      tap(response => this.handleAuthResponse(response))
+
+  register(username: string, password: string, email?: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, { username, password, email });
+  }
+
+
+  login(username: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
+      tap(res => this.handleAuthResponse(res))
     );
   }
 
-  login(email: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, {
-      email, password
-    }).pipe(
-      tap(response => this.handleAuthResponse(response))
-    );
+
+  getProfile(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/profile`, { headers: this.authHeaders() });
   }
 
-  private handleAuthResponse(response: AuthResponse) {
-    if (response.success && response.token) {
-      this.token = response.token;
-      this.currentUserSubject.next(response.user);
+  // Si tu backend tiene PUT /user/profile, lo dejamos preparado:
+  updateProfile(data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/profile`, data, { headers: this.authHeaders() });
+  }
 
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
+  private handleAuthResponse(res: AuthResponse) {
+    if (res?.success && res?.token) {
+      this.token = res.token;
+      this.currentUserSubject.next(res.user);
+
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('user', JSON.stringify(res.user));
     }
   }
 
@@ -85,11 +88,9 @@ export class AuthService {
     return !!this.token;
   }
 
-  updateProfile(data: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/profile`, data);
-  }
-
-  getProfile(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/profile`);
+  // Para TeamsService (o quien lo necesite)
+  authHeaders(): HttpHeaders {
+    const t = this.token || localStorage.getItem('token');
+    return new HttpHeaders(t ? { Authorization: `Bearer ${t}` } : {});
   }
 }

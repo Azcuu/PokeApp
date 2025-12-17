@@ -1,28 +1,41 @@
-<div class="auth-container">
+<!-- login.html -->
+<div class="auth">
   <h1>Login</h1>
 
-  <form (ngSubmit)="login()" class="auth-form">
-    <label for="username">Usuario</label>
+  <form (ngSubmit)="login()" class="box">
+    <label>Email</label>
     <input
-      id="username"
-      type="text"
-      [(ngModel)]="username"
-      name="username"
-      placeholder="Tu usuario"
+      [(ngModel)]="email"
+      name="email"
+      type="email"
+      placeholder="ej: usuario@ejemplo.com"
       required
     />
 
-    <label for="password">Contraseña</label>
-    <input
-      id="password"
-      type="password"
-      [(ngModel)]="password"
-      name="password"
-      placeholder="Tu contraseña"
-      required
-    />
+    <label>Contraseña</label>
+    <div class="password-container">
+      <input
+        [(ngModel)]="password"
+        name="password"
+        type="password"
+        placeholder="Tu contraseña"
+        required
+      />
+      <!-- Opcional: botón para mostrar/ocultar contraseña -->
+      <button type="button" class="toggle-password" (click)="togglePassword()">
+        👁️
+      </button>
+    </div>
 
-    <button type="submit" [disabled]="loading">
+    <div class="login-options">
+      <label class="remember-me">
+        <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
+        Recordarme
+      </label>
+      <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+    </div>
+
+    <button type="submit" [disabled]="loading" [class.loading]="loading">
       {{ loading ? 'Entrando...' : 'Entrar' }}
     </button>
 
@@ -31,6 +44,6 @@
 
   <p class="hint">
     ¿No tienes cuenta?
-    <a routerLink="/register">Regístrate</a>
+    <a routerLink="/register">Regístrate aquí</a>
   </p>
 </div>

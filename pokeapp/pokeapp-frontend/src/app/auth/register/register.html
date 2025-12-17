@@ -1,1 +1,83 @@
-<p>register works!</p>
+<!-- register.html -->
+<div class="auth">
+  <h1>Registro</h1>
+
+  <form (ngSubmit)="submit()" class="box">
+    <label>Nombre de usuario</label>
+    <input
+      [(ngModel)]="username"
+      name="username"
+      placeholder="ej: pikachu123"
+      required
+    />
+
+    <label>Email</label>
+    <input
+      [(ngModel)]="email"
+      name="email"
+      type="email"
+      placeholder="ej: usuario@ejemplo.com"
+      required
+    />
+
+    <label>Contraseña</label>
+    <div class="password-container">
+      <input
+        [(ngModel)]="password"
+        name="password"
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="mínimo 6 caracteres"
+        required
+        (input)="checkPasswordStrength()"
+      />
+      <button type="button" class="toggle-password" (click)="togglePassword()">
+        {{ showPassword ? '🙈' : '👁️' }}
+      </button>
+    </div>
+
+    <!-- Opcional: indicador de fortaleza de contraseña -->
+    <div class="password-strength" *ngIf="password">
+      <div class="strength-bar">
+        <div class="strength-fill" [style.width.%]="passwordStrength"
+             [style.backgroundColor]="getStrengthColor()"></div>
+      </div>
+      <div class="strength-text">
+        {{ getStrengthText() }}
+      </div>
+    </div>
+
+    <label>Repite contraseña</label>
+    <div class="password-container">
+      <input
+        [(ngModel)]="confirmPassword"
+        name="confirmPassword"
+        [type]="showConfirmPassword ? 'text' : 'password'"
+        placeholder="repite la contraseña"
+        required
+      />
+      <button type="button" class="toggle-password" (click)="toggleConfirmPassword()">
+        {{ showConfirmPassword ? '🙈' : '👁️' }}
+      </button>
+    </div>
+
+    <!-- Opcional: términos y condiciones -->
+    <div class="terms">
+      <input type="checkbox" [(ngModel)]="acceptTerms" name="acceptTerms" required>
+      <span>
+        Acepto los <a href="#" (click)="$event.preventDefault()">términos y condiciones</a>
+      </span>
+    </div>
+
+    <button type="submit" [disabled]="loading || !acceptTerms" [class.loading]="loading">
+      {{ loading ? 'Creando cuenta...' : 'Registrarse' }}
+    </button>
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+    <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  </form>
+
+  <p class="hint">
+    ¿Ya tienes cuenta?
+    <a routerLink="/login">Inicia sesión aquí</a>
+  </p>
+</div>
