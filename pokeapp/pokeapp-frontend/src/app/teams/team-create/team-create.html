@@ -1,0 +1,139 @@
+<div class="team-create-container">
+  <h2>Crear Nuevo Equipo</h2>
+
+  <form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
+    <!-- Nombre del equipo -->
+    <div class="form-group">
+      <label for="name">Nombre del Equipo *</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        placeholder="Ej: Mi equipo competitivo"
+        class="form-input"
+      >
+      <div *ngIf="teamForm.get('name')?.invalid && teamForm.get('name')?.touched"
+           class="error-message">
+        El nombre es requerido (mínimo 3 caracteres)
+      </div>
+    </div>
+
+    <!-- Descripción -->
+    <div class="form-group">
+      <label for="description">Descripción</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        rows="3"
+        placeholder="Describe tu estrategia o el propósito del equipo..."
+        class="form-textarea"
+      ></textarea>
+    </div>
+
+    <!-- Pokémon seleccionados -->
+    <div class="form-group">
+      <label>Pokémon en el equipo ({{ selectedPokemons.length }}/6) *</label>
+
+      <div class="selected-pokemon-grid">
+        <div *ngFor="let pokemon of selectedPokemons; let i = index"
+             class="selected-pokemon">
+          <img [src]="pokemon.sprite" [alt]="pokemon.name" class="pokemon-sprite">
+          <span class="pokemon-name">{{ pokemon.name }}</span>
+          <button type="button" (click)="removePokemon(i)" class="remove-btn">
+            ✕
+          </button>
+        </div>
+
+        <!-- Slots vacíos -->
+        <div *ngFor="let _ of [].constructor(6 - selectedPokemons.length)"
+             class="empty-slot"
+             (click)="openPokemonSelector()">
+          <span>+ Añadir Pokémon</span>
+        </div>
+      </div>
+
+      <button type="button" (click)="openPokemonSelector()" class="add-pokemon-btn">
+        🔍 Buscar y añadir Pokémon
+      </button>
+    </div>
+
+    <!-- Tags -->
+    <div class="form-group">
+      <label>Etiquetas</label>
+      <div class="tags-container">
+        <div *ngFor="let tag of availableTags"
+             class="tag-option"
+             [class.selected]="selectedTags.includes(tag)"
+             (click)="toggleTag(tag)">
+          {{ tag }}
+        </div>
+      </div>
+      <input
+        type="text"
+        placeholder="Añadir etiqueta personalizada..."
+        (keyup.enter)="addCustomTag($event)"
+        class="tag-input"
+      >
+    </div>
+
+    <!-- Visibilidad -->
+    <div class="form-group">
+      <label class="checkbox-label">
+        <input type="checkbox" formControlName="isPublic">
+        <span>Hacer público (otros usuarios podrán verlo)</span>
+      </label>
+    </div>
+
+    <!-- Botones -->
+    <div class="form-actions">
+      <button type="button" (click)="cancel()" class="btn btn-secondary">
+        Cancelar
+      </button>
+      <button type="submit"
+              [disabled]="teamForm.invalid || selectedPokemons.length === 0"
+              class="btn btn-primary">
+        {{ isEditing ? 'Actualizar Equipo' : 'Crear Equipo' }}
+      </button>
+    </div>
+  </form>
+
+  <!-- Selector de Pokémon (modal) -->
+  <div *ngIf="showPokemonSelector" class="modal-overlay" (click)="closePokemonSelector()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h3>Seleccionar Pokémon</h3>
+
+      <div class="pokemon-search">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Buscar Pokémon por nombre..."
+          class="search-input"
+          (input)="filterPokemons()"
+        >
+      </div>
+
+      <div class="pokemon-grid-selector">
+        <div *ngFor="let pokemon of filteredPokemons"
+             class="pokemon-selector-card"
+             (click)="selectPokemon(pokemon)">
+          <img [src]="pokemon.image.sprite" [alt]="pokemon.name.english" class="pokemon-sprite">
+          <div class="pokemon-info">
+            <span class="pokemon-name">{{ pokemon.name.english }}</span>
+            <span class="pokemon-id">#{{ pokemon.id }}</span>
+          </div>
+          <div class="pokemon-types">
+            <span *ngFor="let type of pokemon.type"
+                  class="type-badge"
+                  [class]="'type-' + type">
+              {{ type }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <button (click)="closePokemonSelector()" class="btn btn-secondary">
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>

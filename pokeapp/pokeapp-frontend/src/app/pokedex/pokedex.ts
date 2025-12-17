@@ -1,5 +1,5 @@
 import { Component, inject, model, signal, OnInit, effect } from '@angular/core';
-import { PokeappService } from '../pokeapp-service';
+import { PokeappService } from '../services/pokeapp.service/pokeapp-service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Pokemon } from '../models/pokemon.model';

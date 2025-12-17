@@ -1,4 +1,4 @@
-import { getAllDBPokemon, getDBPokemonById } from '../models/pokeapp.models.js';
+import { getAllDBPokemon, getDBPokemonById } from '../models/pokemon.models.js';
 
 export async function getAllPokemon(req, res) {
    try {

@@ -1,6 +1,6 @@
 import { Component, signal, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PokeappService } from '../pokeapp-service';
+import { PokeappService } from '../services/pokeapp.service/pokeapp-service';
 import { Pokemon } from '../models/pokemon.model';
 import { CommonModule } from '@angular/common';
 import { TitleCasePipe } from '@angular/common';

@@ -1,18 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Header } from './header/header';
-import { Footer } from './footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    RouterOutlet,
-    Header,
-    Footer
-  ],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  standalone: true,
+  imports: [RouterOutlet],
+  templateUrl: './app.html', // si tu archivo se llama app.component.html, cambia esto
 })
-export class App {
-  protected readonly title = signal('pokeapp-frontend');
-}
+export class App {}
