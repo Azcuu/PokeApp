@@ -31,7 +31,7 @@ export class UserTeams implements OnInit {
   ngOnInit(): void {
     this.isAuthenticated = !!localStorage.getItem('token');
 
-    
+
     if (!this.isAuthenticated) {
       this.loading = false;
       this.cdr.detectChanges();
@@ -54,14 +54,14 @@ export class UserTeams implements OnInit {
     const token = localStorage.getItem('token');
     this.userId = localStorage.getItem('userId');
     this.username = localStorage.getItem('username');
-    
+
     console.log('Token in localStorage:', token);
     console.log('User ID in localStorage:', this.userId);
     console.log('Username in localStorage:', this.username);
-    
+
     this.tokenPresent = !!token;
     this.isAuthenticated = !!token;
-    
+
     if (!this.isAuthenticated) {
       this.error = 'Debes iniciar sesión para ver tus equipos';
       this.loading = false;
@@ -71,22 +71,22 @@ export class UserTeams implements OnInit {
 
   logout() {
     if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
-      
+
       localStorage.removeItem('token');
       localStorage.removeItem('userId');
       localStorage.removeItem('username');
 
- 
+
       this.isAuthenticated = false;
       this.tokenPresent = false;
       this.userId = null;
       this.username = null;
       this.teams = [];
-      
-      
+
+
       alert('Sesión cerrada correctamente');
-      
-     
+
+
       this.router.navigate(['/my-teams']);
     }
   }
@@ -105,7 +105,7 @@ export class UserTeams implements OnInit {
       error: (err: any) => {
         console.error(err);
 
-       
+
         const msg =
           err?.error?.error ||
           err?.error?.message ||
@@ -114,7 +114,7 @@ export class UserTeams implements OnInit {
         this.error = msg;
         this.loading = false;
 
-        
+
         if (err?.status === 401) {
           this.isAuthenticated = false;
           localStorage.removeItem('token');
@@ -140,7 +140,7 @@ export class UserTeams implements OnInit {
 
     this.teamsService.deleteTeam(id).subscribe({
       next: () => {
-       
+
         this.teams = this.teams.filter(t => t._id !== id);
         this.cdr.detectChanges();
       },
