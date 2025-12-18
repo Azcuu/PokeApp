@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import { mongodbInstance } from "../infraestructure/mongodb-connection.js";
 
-// Sub-esquemas (usamos { _id: false } para no generar IDs innecesarios en subdocumentos)
 const nameSchema = new mongodbInstance.Schema({
     english: String,
     japanese: String,
@@ -36,7 +35,7 @@ const imageSchema = new mongodbInstance.Schema({
     hires: String
 }, { _id: false });
 
-// Esquema principal de Pokémon
+// Esquema principal de Pokemon
 const pokemonSchema = new mongodbInstance.Schema({
     id: {
         type: Number,
@@ -66,7 +65,7 @@ const pokemonSchema = new mongodbInstance.Schema({
 
 export const PokemonModel = mongodbInstance.model('Pokemons', pokemonSchema);
 
-// Funciones
+// Funcions
 export async function getAllDBPokemon() {
     console.log('Buscando pokemones...');
     const data = await PokemonModel.find().sort({ id: 1 }).lean();

@@ -108,7 +108,6 @@ button:disabled {
   text-decoration: underline;
 }
 
-/* Estilos específicos para el login */
 .login-options {
   display: flex;
   justify-content: space-between;
@@ -141,7 +140,6 @@ button:disabled {
   text-decoration: underline;
 }
 
-/* Estilos responsivos */
 @media (max-width: 480px) {
   .auth {
     margin: 20px;
@@ -164,7 +162,7 @@ button:disabled {
   }
 }
 
-/* Animación de carga */
+
 @keyframes pulse {
   0% { opacity: 1; }
   50% { opacity: 0.5; }
@@ -175,7 +173,6 @@ button:disabled {
   animation: pulse 1.5s infinite;
 }
 
-/* Mejora para inputs de tipo password */
 .password-container {
   position: relative;
 }

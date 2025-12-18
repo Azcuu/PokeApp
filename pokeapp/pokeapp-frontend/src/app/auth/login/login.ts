@@ -24,7 +24,6 @@ export class Login {
   private apiUrl = 'http://localhost:3000/user/login';
 
   constructor(private http: HttpClient, private router: Router) {
-    // Cargar email guardado si "recordarme" estaba activado
     const savedEmail = localStorage.getItem('savedEmail');
     if (savedEmail) {
       this.email = savedEmail;
@@ -58,21 +57,21 @@ export class Login {
             return;
           }
 
-          // Guardar token y usuario
+          // Guardar token i usuari
           localStorage.setItem('token', res.token);
           if (res?.user) {
             localStorage.setItem('user', JSON.stringify(res.user));
             localStorage.setItem('username', res.user.username);
           }
 
-          // Guardar email si "recordarme" está activado
+          
           if (this.rememberMe) {
             localStorage.setItem('savedEmail', e);
           } else {
             localStorage.removeItem('savedEmail');
           }
 
-          this.router.navigate(['/teams']);
+          this.router.navigate(['my-teams']);
         },
         error: (e) => {
           console.error('Login error:', e);

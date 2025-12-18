@@ -510,3 +510,55 @@
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #ffaa00, #1a5ba0);
 }
+
+/* Type Colors */
+.type-Normal { --type-color: #A8A878; }
+.type-Fire { --type-color: #F08030; }
+.type-Water { --type-color: #6890F0; }
+.type-Electric { --type-color: #F8D030; }
+.type-Grass { --type-color: #78C850; }
+.type-Ice { --type-color: #98D8D8; }
+.type-Fighting { --type-color: #C03028; }
+.type-Poison { --type-color: #A040A0; }
+.type-Ground { --type-color: #E0C068; }
+.type-Flying { --type-color: #A890F0; }
+.type-Psychic { --type-color: #F85888; }
+.type-Bug { --type-color: #A8B820; }
+.type-Rock { --type-color: #B8A038; }
+.type-Ghost { --type-color: #705898; }
+.type-Dragon { --type-color: #7038F8; }
+.type-Dark { --type-color: #705848; }
+.type-Steel { --type-color: #B8B8D0; }
+.type-Fairy { --type-color: #EE99AC; }
+
+/* Clases individuales para cada badge */
+.badge-normal { background: var(--type-color, #A8A878); }
+.badge-fire { background: var(--type-color, #F08030); }
+.badge-water { background: var(--type-color, #6890F0); }
+.badge-electric { background: var(--type-color, #F8D030); }
+.badge-grass { background: var(--type-color, #78C850); }
+.badge-ice { background: var(--type-color, #98D8D8); }
+.badge-fighting { background: var(--type-color, #C03028); }
+.badge-poison { background: var(--type-color, #A040A0); }
+.badge-ground { background: var(--type-color, #E0C068); }
+.badge-flying { background: var(--type-color, #A890F0); }
+.badge-psychic { background: var(--type-color, #F85888); }
+.badge-bug { background: var(--type-color, #A8B820); }
+.badge-rock { background: var(--type-color, #B8A038); }
+.badge-ghost { background: var(--type-color, #705898); }
+.badge-dragon { background: var(--type-color, #7038F8); }
+.badge-dark { background: var(--type-color, #705848); }
+.badge-steel { background: var(--type-color, #B8B8D0); }
+.badge-fairy { background: var(--type-color, #EE99AC); }
+
+/* Estilo base del badge */
+.type-badge {
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

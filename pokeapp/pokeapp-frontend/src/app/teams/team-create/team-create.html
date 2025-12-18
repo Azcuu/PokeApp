@@ -1,8 +1,7 @@
 <div class="team-create-container">
-  <h2>Crear Nuevo Equipo</h2>
+  <h2>{{ isEditing ? 'Editar Equipo' : 'Crear Nuevo Equipo' }}</h2>
 
   <form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
-    <!-- Nombre del equipo -->
     <div class="form-group">
       <label for="name">Nombre del Equipo *</label>
       <input
@@ -18,7 +17,6 @@
       </div>
     </div>
 
-    <!-- Descripción -->
     <div class="form-group">
       <label for="description">Descripción</label>
       <textarea
@@ -30,7 +28,6 @@
       ></textarea>
     </div>
 
-    <!-- Pokémon seleccionados -->
     <div class="form-group">
       <label>Pokémon en el equipo ({{ selectedPokemons.length }}/6) *</label>
 
@@ -44,8 +41,7 @@
           </button>
         </div>
 
-        <!-- Slots vacíos -->
-        <div *ngFor="let _ of [].constructor(6 - selectedPokemons.length)"
+        <div *ngFor="let _ of emptySlots"
              class="empty-slot"
              (click)="openPokemonSelector()">
           <span>+ Añadir Pokémon</span>
@@ -57,7 +53,6 @@
       </button>
     </div>
 
-    <!-- Tags -->
     <div class="form-group">
       <label>Etiquetas</label>
       <div class="tags-container">
@@ -70,21 +65,12 @@
       </div>
       <input
         type="text"
-        placeholder="Añadir etiqueta personalizada..."
+        placeholder="Añadir etiqueta personalizada... (Enter)"
         (keyup.enter)="addCustomTag($event)"
         class="tag-input"
       >
     </div>
 
-    <!-- Visibilidad -->
-    <div class="form-group">
-      <label class="checkbox-label">
-        <input type="checkbox" formControlName="isPublic">
-        <span>Hacer público (otros usuarios podrán verlo)</span>
-      </label>
-    </div>
-
-    <!-- Botones -->
     <div class="form-actions">
       <button type="button" (click)="cancel()" class="btn btn-secondary">
         Cancelar
@@ -97,26 +83,36 @@
     </div>
   </form>
 
-  <!-- Selector de Pokémon (modal) -->
   <div *ngIf="showPokemonSelector" class="modal-overlay" (click)="closePokemonSelector()">
     <div class="modal-content" (click)="$event.stopPropagation()">
-      <h3>Seleccionar Pokémon</h3>
+      <div class="modal-top">
+        <h3>Seleccionar Pokémon</h3>
+        <button type="button" class="icon-close" (click)="closePokemonSelector()">✕</button>
+      </div>
 
       <div class="pokemon-search">
         <input
           type="text"
           [(ngModel)]="searchTerm"
-          placeholder="Buscar Pokémon por nombre..."
+          placeholder="Buscar Pokémon por nombre / id..."
           class="search-input"
           (input)="filterPokemons()"
         >
       </div>
 
-      <div class="pokemon-grid-selector">
+      <p class="modal-info" *ngIf="loadingPokemons">Cargando Pokémon…</p>
+      <p class="modal-error" *ngIf="!loadingPokemons && errorPokemons">{{ errorPokemons }}</p>
+
+      <div class="pokemon-grid-selector" *ngIf="!loadingPokemons && !errorPokemons">
         <div *ngFor="let pokemon of filteredPokemons"
              class="pokemon-selector-card"
              (click)="selectPokemon(pokemon)">
-          <img [src]="pokemon.image.sprite" [alt]="pokemon.name.english" class="pokemon-sprite">
+          <img
+            [src]="pokemonCardSprite(pokemon)"
+            [alt]="pokemon?.name?.english"
+            class="pokemon-sprite"
+            (error)="$any($event.target).style.display='none'"
+          >
           <div class="pokemon-info">
             <span class="pokemon-name">{{ pokemon.name.english }}</span>
             <span class="pokemon-id">#{{ pokemon.id }}</span>
@@ -124,14 +120,14 @@
           <div class="pokemon-types">
             <span *ngFor="let type of pokemon.type"
                   class="type-badge"
-                  [class]="'type-' + type">
+                  [class]="'type-' + (type | lowercase)">
               {{ type }}
             </span>
           </div>
         </div>
       </div>
 
-      <button (click)="closePokemonSelector()" class="btn btn-secondary">
+      <button type="button" (click)="closePokemonSelector()" class="btn btn-secondary">
         Cerrar
       </button>
     </div>

@@ -1,26 +1,30 @@
 import { Router } from 'express';
 import { authMiddleware } from '../middlewares/auth-middleware.js';
-import { 
-  getAllTeams, 
-  getUserTeams, 
-  getTeamById, 
-  createTeam, 
-  updateTeam, 
-  deleteTeam
+import {
+  getAllTeams,
+  getUserTeams,
+  getTeamById,
+  createTeam,
+  updateTeam,
+  deleteTeam,
+  addComment,
+  likeTeam,
 } from '../controllers/teams.controllers.js';
 
 const router = Router();
 
-// Rutas públicas
+
 router.get('/', getAllTeams);
+
+
+router.get('/user/teams', authMiddleware, getUserTeams);
+router.post('/', authMiddleware, createTeam);
+router.put('/:id', authMiddleware, updateTeam);
+router.delete('/:id', authMiddleware, deleteTeam);
+router.post('/:id/comment', authMiddleware, addComment);
+router.post('/:id/like', authMiddleware, likeTeam);
+
+
 router.get('/:id', getTeamById);
-
-// Rutas protegidas
-router.use(authMiddleware); // Todas las rutas debajo requieren autenticación
-
-router.get('/user/teams', getUserTeams);
-router.post('/', createTeam);
-router.put('/:id', updateTeam);
-router.delete('/:id', deleteTeam);
 
 export default router;

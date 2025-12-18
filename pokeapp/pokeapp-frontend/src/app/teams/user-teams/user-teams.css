@@ -1,0 +1,857 @@
+/* user-teams.css */
+.user-teams-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 80px);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #fff;
+}
+
+.user-teams-page h1 {
+  color: #34d399;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 0 #059669;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Debug info */
+.debug-info {
+  background: rgba(255, 203, 5, 0.1);
+  border: 1px solid rgba(255, 203, 5, 0.3);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* Debug actions */
+.debug-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 10px;
+  border-left: 4px solid #3b82f6;
+}
+
+.btn-retry, .btn-refresh, .btn-login {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.btn-retry {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-retry:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+
+.btn-refresh {
+  background: #8b5cf6;
+  color: white;
+}
+
+.btn-refresh:hover {
+  background: #7c3aed;
+  transform: translateY(-2px);
+}
+
+.btn-login {
+  background: #10b981;
+  color: white;
+}
+
+.btn-login:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}
+
+/* Loading state */
+.loading-state {
+  text-align: center;
+  padding: 3rem;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #34d399;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error container */
+.error-container {
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 1.5rem 0;
+  border: 2px solid #ef4444;
+}
+
+.error-message {
+  text-align: center;
+  color: #f87171;
+}
+
+.error-message i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #ef4444;
+}
+
+.error-message h3 {
+  color: #ef4444;
+  margin-bottom: 1rem;
+}
+
+.error-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+  border-radius: 20px;
+  margin: 2rem 0;
+  border: 2px dashed #34d399;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  color: #34d399;
+  margin-bottom: 1.5rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.empty-state h3 {
+  color: #34d399;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+
+.empty-state p {
+  color: #cbd5e1;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.btn-create-first {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(52, 211, 153, 0.3);
+}
+
+.btn-create-first:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(52, 211, 153, 0.4);
+}
+
+/* Teams grid */
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+/* User team card */
+.user-team-card {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+  border-radius: 20px;
+  padding: 1.8rem;
+  border: 2px solid rgba(52, 211, 153, 0.3);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.user-team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(52, 211, 153, 0.2);
+  border-color: rgba(52, 211, 153, 0.6);
+}
+
+.user-team-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #34d399, #10b981);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.team-name {
+  color: #34d399;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.team-status {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.status-public, .status-private {
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-public {
+  background: rgba(52, 211, 153, 0.2);
+  color: #34d399;
+}
+
+.status-private {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+.team-description {
+  color: #e2e8f0;
+  margin: 1.2rem 0;
+  line-height: 1.5;
+  font-size: 0.95rem;
+  min-height: 4.5rem;
+}
+
+/* Pokémon preview */
+.pokemon-preview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+}
+
+.pokemon-preview-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.pokemon-sprite {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  padding: 0.3rem;
+}
+
+.pokemon-name {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  text-align: center;
+  text-transform: capitalize;
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* No Pokémon */
+.no-pokemon {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  margin: 1.2rem 0;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+/* Stats bar */
+.stats-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.2rem 0;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.stat i {
+  color: #34d399;
+}
+
+/* Team actions */
+.team-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+  padding-top: 1.2rem;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-action {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-edit {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+}
+
+.btn-edit:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-2px);
+}
+
+.btn-view {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+}
+
+.btn-view:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  transform: translateY(-2px);
+}
+
+.btn-delete {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.btn-delete:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-2px);
+}
+
+/* Bottom actions */
+.bottom-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+}
+
+.btn-create-large, .btn-back {
+  padding: 1.2rem 2.5rem;
+  border-radius: 15px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+.btn-create-large {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  color: white;
+  box-shadow: 0 6px 20px rgba(52, 211, 153, 0.3);
+}
+
+.btn-create-large:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(52, 211, 153, 0.4);
+}
+
+.btn-back {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  color: white;
+}
+
+.btn-back:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .user-teams-page {
+    padding: 1rem;
+  }
+  
+  .user-teams-page h1 {
+    font-size: 2rem;
+  }
+  
+  .teams-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .team-actions {
+    flex-direction: column;
+  }
+  
+  .bottom-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn-create-large,
+  .btn-back {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* Añade estos estilos al archivo CSS */
+
+/* Page header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Logout button */
+.btn-logout {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
+}
+
+.btn-logout:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn-logout:active {
+  transform: translateY(0);
+}
+
+/* Responsive para el header */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .header-right {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .btn-logout {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-logout {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Añade al user-teams.css */
+.btn-logout-small {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+}
+
+.btn-logout-small:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-2px);
+}
+
+/* Ajustar error-actions */
+.error-actions {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Page header ajustado */
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  color: #34d399;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 0 #059669;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem; /* Espacio entre título y botón */
+  flex-wrap: wrap;
+}
+
+/* Botón de logout dentro del header */
+.btn-logout-header {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  margin-left: 1rem;
+  box-shadow: 0 3px 5px rgba(239, 68, 68, 0.2);
+  vertical-align: middle;
+}
+
+.btn-logout-header:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 8px rgba(239, 68, 68, 0.3);
+}
+
+.btn-logout-header:active {
+  transform: translateY(0);
+}
+
+/* También puedes añadir información del usuario si quieres */
+.user-info-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1rem;
+  color: #cbd5e1;
+  margin-left: auto;
+}
+
+.user-info-header i {
+  color: #34d399;
+}
+
+/* Otra opción: Título y botón separados pero en misma línea */
+.alternative-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.alternative-header h1 {
+  margin: 0;
+  color: #34d399;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 0 #059669;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .btn-logout-header {
+    margin-left: 0;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .alternative-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .alternative-header h1 {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .btn-logout-header {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Header que ocupa todo el ancho */
+.full-width-header {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between; /* Esto empuja todo a los extremos */
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-title {
+  color: #34d399;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 0 #059669;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Contenedor de acciones a la derecha */
+.header-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-left: auto; /* Esto empuja el contenido a la derecha */
+}
+
+/* Información del usuario */
+.user-info {
+  background: rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-info i {
+  color: #34d399;
+}
+
+/* Botón de logout completamente a la derecha */
+.btn-logout-right {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
+  white-space: nowrap; /* Evita que el texto se rompa */
+}
+
+.btn-logout-right:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .header-actions-right {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2rem;
+    width: 100%;
+  }
+  
+  .header-actions-right {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+  
+  .user-info, .btn-logout-right {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-actions-right {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .user-info, .btn-logout-right {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+.simple-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.simple-header h1 {
+  color: #34d399;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 0 #059669;
+  font-weight: 700;
+  margin: 0;
+}
+
+.btn-logout-floating {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn-logout-floating:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-50%) scale(1.05);
+}

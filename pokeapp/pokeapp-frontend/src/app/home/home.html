@@ -1,37 +1,103 @@
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <title>PokeApp - Inici</title>
-    <meta name="description" content="PokeApp: PokeDex i Pokedle">
-    <link rel="stylesheet" href="/styles/index.css">
-    <link rel="stylesheet" href="/styles/header.css">
-    <script src="js/header.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex - Portal Pokémon</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/pokeball.png">
 </head>
-
 <body>
+    <div class="container">
+        <header>
+            <img src="https://img.icons8.com/color/96/000000/pokeball.png" alt="Pokéball" class="logo">
+            <h1>Portal Pokémon</h1>
+            <p class="subtitle">Accedeix a totes les eines per a entrenadors Pokémon. Gestiona la teva Pokédex, juga a Pokedle i crea equips estratègics.</p>
+        </header>
 
-    <div id="topbar">
-        <!-- Aquí se cargará el header desde header.html -->
+        <main class="main-content">
+            <!-- Tarjeta Pokédex -->
+            <section class="feature-card">
+                <h2 class="section-title">Pokédex</h2>
+                <p class="feature-description">
+                    Accedeix a la base de dades completa de Pokémon. Cerca per nom, tipus i explora les seves estadístiques, evolucions i molt més.
+                </p>
+                <div class="btn-container">
+                    <a href="/pokedex" class="btn btn-pokedex highlight">
+                        <span class="btn-content">
+                            <span class="btn-icon"><i class="fas fa-book"></i></span>
+                            <span class="btn-text">Obrir Pokédex</span>
+                            <span class="btn-arrow"><i class="fas fa-chevron-right"></i></span>
+                        </span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Tarjeta Pokedle -->
+            <section class="feature-card">
+                <h2 class="section-title">Pokedle</h2>
+                <p class="feature-description">
+                    Endevina el Pokémon del dia! Un joc diari de descobriment amb pistes progressives. Posa a prova el teu coneixement Pokémon.
+                </p>
+                <div class="btn-container">
+                    <a href="/pokedle" class="btn btn-pokedle highlight">
+                        <span class="btn-content">
+                            <span class="btn-icon"><i class="fas fa-gamepad"></i></span>
+                            <span class="btn-text">Jugar a Pokedle</span>
+                            <span class="btn-arrow"><i class="fas fa-chevron-right"></i></span>
+                        </span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Tarjeta Teams -->
+            <section class="feature-card">
+                <h2 class="section-title">Teams</h2>
+                <p class="feature-description">
+                    Crea i gestiona els teus equips Pokémon. Comparteix estratègies amb altres entrenadors i descobreix combinacions.
+                </p>
+                <div class="btn-container">
+                    <a href="/teams" class="btn btn-teams highlight">
+                        <span class="btn-content">
+                            <span class="btn-icon"><i class="fas fa-users"></i></span>
+                            <span class="btn-text">Veure Teams</span>
+                            <span class="btn-arrow"><i class="fas fa-chevron-right"></i></span>
+                        </span>
+                    </a>
+                </div>
+            </section>
+        </main>
     </div>
 
-    <main class="container">
-        <section>
-            <h1>PokeApp</h1>
-            <p>Projecte Enginyeria Llocs Web</p>
-            <h3>Benvingut a PokeApp!</h3>
-            <p>Explora el món dels Pokémon amb la nostra PokeDex interactiva i desafia't amb el nostre joc Pokedle.</p>
+    <script>
+        // Efecto de animación para los botones
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.btn:not(.btn-inactive)');
 
-            <h3>Opcions a Escollir</h3>
-            <div class="buttons">
-                <button (click)="goPokedex('/pokedex')" id="btnPokedex" class="btn btn-red">📘 Obrir Pokédex</button>
-                <button (click)="goPokedle('/pokedle')" id="btnPokedle" class="btn btn-red">🎯 Jugar a Pokedle</button>
-                <button (click)="goTeams('/teams')" id="btnTeams" class="btn btn-red">👥 Veure Teams</button>
-            </div>
-        </section>
-    </main>
-    <script src="js/index.js" defer></script>
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.classList.add('hover-active');
+                });
+
+                button.addEventListener('mouseleave', function() {
+                    this.classList.remove('hover-active');
+                });
+            });
+
+            // Simulación de funcionalidad de checkboxes
+            const checkboxes = document.querySelectorAll('.checkbox-input:not(:disabled)');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const label = this.nextElementSibling;
+                    if (this.checked) {
+                        label.style.color = '#2a75bb';
+                    } else {
+                        label.style.color = '#cbd5e1';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
-
 </html>

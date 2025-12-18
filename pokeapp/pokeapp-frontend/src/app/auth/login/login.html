@@ -21,18 +21,9 @@
         placeholder="Tu contraseña"
         required
       />
-      <!-- Opcional: botón para mostrar/ocultar contraseña -->
       <button type="button" class="toggle-password" (click)="togglePassword()">
-        👁️
+        
       </button>
-    </div>
-
-    <div class="login-options">
-      <label class="remember-me">
-        <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
-        Recordarme
-      </label>
-      <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
     </div>
 
     <button type="submit" [disabled]="loading" [class.loading]="loading">

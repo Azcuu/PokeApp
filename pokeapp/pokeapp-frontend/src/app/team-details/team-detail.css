@@ -1,0 +1,671 @@
+/* team-details.css */
+.team-details-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 80px);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #fff;
+}
+
+/* Header */
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(255, 203, 5, 0.3);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.back-button {
+  background: rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.team-title-section {
+  flex: 1;
+  min-width: 300px;
+}
+
+.team-title {
+  color: #ffcb05;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 0 #2a75bb;
+}
+
+.team-meta {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.team-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.team-creator { color: #60a5fa; }
+.team-date { color: #94a3b8; }
+.team-public { color: #34d399; }
+.team-private { color: #f87171; }
+
+.team-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.team-actions button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-edit {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+}
+
+.btn-edit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+}
+
+.btn-delete {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.btn-delete:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+}
+
+/* Loading State */
+.loading-state {
+  text-align: center;
+  padding: 4rem;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(255, 203, 5, 0.3);
+  border-top-color: #ffcb05;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error State */
+.error-state {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 15px;
+  border: 2px solid #ef4444;
+}
+
+.error-message i {
+  font-size: 3rem;
+  color: #ef4444;
+  margin-bottom: 1rem;
+}
+
+.btn-retry {
+  margin-top: 1.5rem;
+  padding: 0.8rem 1.5rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Team Content */
+.team-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.team-description-card {
+  background: rgba(30, 41, 59, 0.8);
+  padding: 2rem;
+  border-radius: 15px;
+  border-left: 5px solid #3b82f6;
+}
+
+.team-description-card h2 {
+  color: #60a5fa;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.team-description-card p {
+  color: #cbd5e1;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+/* Stats Section */
+.stats-section {
+  background: rgba(30, 41, 59, 0.8);
+  padding: 2rem;
+  border-radius: 15px;
+  border-left: 5px solid #10b981;
+}
+
+.stats-section h3 {
+  color: #34d399;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 203, 5, 0.1);
+}
+
+.stat-label {
+  display: block;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  display: block;
+  color: #ffcb05;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+/* Pokémon Section */
+.pokemon-section {
+  background: rgba(30, 41, 59, 0.8);
+  padding: 2rem;
+  border-radius: 15px;
+  border-left: 5px solid #ffcb05;
+}
+
+.pokemon-section h2 {
+  color: #ffcb05;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.no-pokemon {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+.no-pokemon i {
+  font-size: 3rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+}
+
+.btn-add-pokemon {
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Pokémon Grid */
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.pokemon-card {
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 15px;
+  padding: 1.5rem;
+  border: 2px solid rgba(255, 203, 5, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pokemon-card:hover {
+  transform: translateY(-5px);
+  border-color: #ffcb05;
+  box-shadow: 0 10px 25px rgba(255, 203, 5, 0.2);
+}
+
+.pokemon-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.pokemon-number {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.pokemon-name {
+  color: #ffcb05;
+  font-size: 1.4rem;
+  text-transform: capitalize;
+}
+
+.pokemon-image {
+  position: relative;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.pokemon-sprite {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(255, 203, 5, 0.3));
+}
+
+.pokemon-position {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #2a75bb;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Pokémon Types */
+.pokemon-types {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.type-badge {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Type Colors */
+.type-normal { background: #A8A878; color: white; }
+.type-fire { background: #F08030; color: white; }
+.type-water { background: #6890F0; color: white; }
+.type-electric { background: #F8D030; color: black; }
+.type-grass { background: #78C850; color: white; }
+.type-ice { background: #98D8D8; color: black; }
+.type-fighting { background: #C03028; color: white; }
+.type-poison { background: #A040A0; color: white; }
+.type-ground { background: #E0C068; color: black; }
+.type-flying { background: #A890F0; color: white; }
+.type-psychic { background: #F85888; color: white; }
+.type-bug { background: #A8B820; color: white; }
+.type-rock { background: #B8A038; color: white; }
+.type-ghost { background: #705898; color: white; }
+.type-dragon { background: #7038F8; color: white; }
+.type-dark { background: #705848; color: white; }
+.type-steel { background: #B8B8D0; color: black; }
+.type-fairy { background: #EE99AC; color: black; }
+
+/* Pokémon Stats */
+.pokemon-stats {
+  margin: 1rem 0;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  gap: 0.8rem;
+}
+
+.stat-row span {
+  width: 70px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.stat-bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.stat-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  border-radius: 4px;
+}
+
+/* Pokémon Actions */
+.pokemon-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.pokemon-actions button {
+  flex: 1;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-view-pokemon {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+.btn-view-pokemon:hover {
+  background: rgba(59, 130, 246, 0.4);
+}
+
+.btn-remove {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+.btn-remove:hover {
+  background: rgba(239, 68, 68, 0.4);
+}
+
+/* Tags Section */
+.tags-section {
+  background: rgba(30, 41, 59, 0.8);
+  padding: 2rem;
+  border-radius: 15px;
+  border-left: 5px solid #8b5cf6;
+}
+
+.tags-section h2 {
+  color: #a78bfa;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.tag {
+  background: rgba(139, 92, 246, 0.2);
+  color: #a78bfa;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+}
+
+/* Info Section */
+.info-section {
+  background: rgba(30, 41, 59, 0.8);
+  padding: 2rem;
+  border-radius: 15px;
+  border-left: 5px solid #94a3b8;
+}
+
+.info-card h3 {
+  color: #cbd5e1;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.info-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.info-label {
+  display: block;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+
+.info-value {
+  display: block;
+  color: #fff;
+  font-family: monospace;
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+/* Footer Actions */
+.footer-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+}
+
+.footer-actions button,
+.footer-actions a {
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-share {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+}
+
+.btn-copy-link {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+.btn-back-bottom {
+  background: rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+}
+
+.footer-actions button:hover,
+.footer-actions a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .team-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .team-actions {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .team-title {
+    font-size: 2rem;
+  }
+  
+  .pokemon-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-actions {
+    flex-direction: column;
+  }
+  
+  .footer-actions button,
+  .footer-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-details-page {
+    padding: 1rem;
+  }
+  
+  .team-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .stats-grid,
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* Añade estos estilos al final de team-detail.css */
+
+/* Para mostrar los valores numéricos de las estadísticas */
+.stat-value-text {
+  width: 40px;
+  color: #ffcb05;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Ajusta el ancho del label de estadísticas */
+.stat-row span:first-child {
+  width: 100px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+/* Mejora la visualización de las barras */
+.stat-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* Estilos para los diferentes colores de estadísticas */
+.stat-hp .stat-fill {
+  background: linear-gradient(90deg, #ef4444, #f87171) !important;
+}
+
+.stat-attack .stat-fill {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24) !important;
+}
+
+.stat-defense .stat-fill {
+  background: linear-gradient(90deg, #10b981, #34d399) !important;
+}
+
+.stat-spattack .stat-fill {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa) !important;
+}
+
+.stat-spdefense .stat-fill {
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa) !important;
+}
+
+.stat-speed .stat-fill {
+  background: linear-gradient(90deg, #ec4899, #f472b6) !important;
+}

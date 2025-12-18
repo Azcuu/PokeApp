@@ -6,6 +6,15 @@ export interface PokemonInTeam {
   pokemonId: number;
   name: string;
   sprite: string;
+  types?: string[];
+  stats?: {
+    hp: number;
+    attack: number;
+    defense: number;
+    spAttack: number;
+    spDefense: number;
+    speed: number;
+  };
 }
 
 export interface Team {
@@ -13,15 +22,12 @@ export interface Team {
   name: string;
   description: string;
   pokemons: PokemonInTeam[];
-  tags: string[];
-  isPublic: boolean;
   creator: any;
   creatorName: string;
-  views: number;
-  likes: string[];
-  comments: any[];
-  createdAt: Date;
-  updatedAt: Date;
+  isPublic: boolean;
+  tags?: string[];
+  createdAt: string | Date;
+  updatedAt: string | Date;
 }
 
 export interface TeamsResponse {
@@ -46,13 +52,12 @@ export class TeamsService {
 
   constructor(private http: HttpClient) {}
 
-  // --- Helpers ---
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders(token ? { Authorization: `Bearer ${token}` } : {});
   }
 
-  // --- Public ---
+  
   getAllTeams(
     page: number = 1,
     limit: number = 20,
@@ -77,12 +82,13 @@ export class TeamsService {
     return this.http.get<TeamResponse>(`${this.apiUrl}/${id}`);
   }
 
-  // --- Protected ---
+
   getUserTeams(): Observable<{ success: boolean; data: Team[] }> {
-    return this.http.get<{ success: boolean; data: Team[] }>(`${this.apiUrl}/user/teams`, {
-      headers: this.getAuthHeaders()
-    });
-  }
+  return this.http.get<{ success: boolean; data: Team[] }>(`${this.apiUrl}/user`, {
+    headers: this.getAuthHeaders()
+  });
+}
+
 
   createTeam(teamData: any): Observable<any> {
     return this.http.post(this.apiUrl, teamData, {
@@ -100,25 +106,5 @@ export class TeamsService {
     return this.http.delete(`${this.apiUrl}/${id}`, {
       headers: this.getAuthHeaders()
     });
-  }
-
-  addComment(id: string, text: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${id}/comment`, { text }, {
-      headers: this.getAuthHeaders()
-    });
-  }
-
-  likeTeam(id: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${id}/like`, {}, {
-      headers: this.getAuthHeaders()
-    });
-  }
-
-  getPopularTags(): string[] {
-    return [
-      'Competitivo', 'Campaign', 'Shiny', 'Legendario',
-      'Starter', 'Eeveelution', 'Monotype', 'Balanceado',
-      'Ofensivo', 'Defensivo', 'Rápido', 'Trick Room'
-    ];
   }
 }

@@ -1,23 +1,22 @@
 <div class="pokedex-container">
   <h1>Pokédex</h1>
 
-  <!-- Estado de carga -->
+
   <div *ngIf="loading()" class="loading">
     <div class="spinner"></div>
     <p>Cargando Pokémon...</p>
   </div>
 
-  <!-- Error -->
+ 
   <div *ngIf="error() && !loading()" class="error">
-    <h2>😞 Error</h2>
+    <h2>Error</h2>
     <p>{{ error() }}</p>
     <button (click)="refresh()">Reintentar</button>
   </div>
 
-  <!-- Contenido principal -->
+ 
   <div *ngIf="!loading() && !error() && loaded()" class="pokedex-content">
 
-    <!-- Filtros -->
     <div class="filters-section">
       <div class="search-box">
         <input
@@ -56,7 +55,7 @@
       </div>
     </div>
 
-    <!-- Grid de Pokémon -->
+   
     <div class="pokemon-grid" *ngIf="filteredPokemons().length > 0">
       <div
         *ngFor="let pokemon of filteredPokemons()"
@@ -70,7 +69,7 @@
             <span
               *ngFor="let type of pokemon.type"
               class="type-badge"
-            >
+              [style.background]="getTypeColor(type)">
               {{ type }}
             </span>
           </div>
@@ -93,7 +92,7 @@
       </div>
     </div>
 
-    <!-- Sin resultados -->
+    
     <div *ngIf="filteredPokemons().length === 0 && !loading()" class="no-results">
       <p>No se encontraron Pokémon con los filtros aplicados.</p>
       <button (click)="clearFilters()">Mostrar todos</button>

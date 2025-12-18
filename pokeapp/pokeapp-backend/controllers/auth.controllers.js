@@ -8,7 +8,7 @@ export async function register(req, res) {
   try {
     const { username, email, password } = req.body;
     
-    // Verificar si el usuario ya existe
+    // Verificar si l'usuari ja existeix
     const existingUser = await UserModel.findOne({ 
       $or: [{ email }, { username }] 
     });
@@ -19,11 +19,11 @@ export async function register(req, res) {
       });
     }
     
-    // Encriptar contraseña
+    // Encriptar contrasenya
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     
-    // Crear usuario SOLO con datos básicos
+    // Crear usuari
     const user = new UserModel({
       username,
       email,
@@ -32,7 +32,7 @@ export async function register(req, res) {
     
     await user.save();
     
-    // Generar token JWT (sin role)
+    // Generar token JWT 
     const token = jwt.sign(
       { userId: user._id, username: user.username },
       JWT_SECRET,
@@ -59,13 +59,13 @@ export async function login(req, res) {
   try {
     const { email, password } = req.body;
     
-    // Buscar usuario
+    // Buscar usuari
     const user = await UserModel.findOne({ email });
     if (!user) {
       return res.status(401).json({ error: 'Credenciales inválidas' });
     }
     
-    // Verificar contraseña
+    // Verificar contrasenya
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
       return res.status(401).json({ error: 'Credenciales inválidas' });

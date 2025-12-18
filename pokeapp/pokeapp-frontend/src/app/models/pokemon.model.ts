@@ -15,7 +15,7 @@ export interface PokemonBaseStats {
 }
 
 export interface PokemonEvolution {
-  next: string[][];  // Ej: [["2", "Level 16"]]
+  next: string[][];  
 }
 
 export interface PokemonAbility {
@@ -24,11 +24,11 @@ export interface PokemonAbility {
 }
 
 export interface PokemonProfile {
-  height: string;      // "0.7 m"
-  weight: string;      // "6.9 kg"
-  egg: string[];       // ["Monster", "Grass"]
-  ability: string[][]; // [["Overgrow", "false"], ["Chlorophyll", "true"]]
-  gender: string;      // "87.5:12.5"
+  height: string;     
+  weight: string;      
+  egg: string[];       
+  ability: string[][]; 
+  gender: string;      
 }
 
 export interface PokemonImages {
@@ -39,41 +39,25 @@ export interface PokemonImages {
 
 // Interfaz principal
 export interface Pokemon {
-  _id?: string;        // MongoDB ObjectId (opcional, lo añade MongoDB)
-  id: number;          // ID numérico del Pokémon (1, 2, 3...)
+  _id?: string;        
+  id: number;          
   name: PokemonName;
-  type: string[];      // ["Grass", "Poison"]
+  type: string[];     
   base: PokemonBaseStats;
-  species?: string;    // "Seed Pokémon"
+  species?: string;   
   description?: string;
   evolution?: PokemonEvolution;
   profile?: PokemonProfile;
   image: PokemonImages;
-  createdAt?: Date;    // Si usas timestamps
-  updatedAt?: Date;    // Si usas timestamps
+  createdAt?: Date;    
+  updatedAt?: Date;    
 }
 
-// Para la respuesta de tu API
+
 export interface PokemonsResponse {
-  success: boolean;    // Según tu estructura de respuesta
+  success: boolean;    
   count: number;
   data: Pokemon[];
 }
 
 // Interfaz para equipos
-export interface Team {
-  _id?: string;
-  name: string;
-  pokemons: number[] | Pokemon[];  // IDs o objetos completos
-  description?: string;
-  createdBy: string;
-  isPublic: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-export interface TeamsResponse {
-  success: boolean;
-  count: number;
-  data: Team[];
-}

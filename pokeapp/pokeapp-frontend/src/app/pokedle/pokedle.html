@@ -1,1 +1,94 @@
-<p>pokedle works!</p>
+<div class="page">
+  <div class="top">
+    <div>
+      <h1>Pokedle</h1>
+      <p class="sub">
+        Intentos: <b>{{ rows.length }}</b>
+      </p>
+    </div>
+
+    <div class="actions">
+      <div class="badge" *ngIf="won">🎉 ¡Acertado!</div>
+      <button class="newgame" type="button" (click)="newGame()">Nueva partida</button>
+    </div>
+  </div>
+
+  <p *ngIf="loading" class="loading">Cargando Pokémon…</p>
+  <p class="error" *ngIf="!loading && error">{{ error }}</p>
+
+  <div *ngIf="!loading">
+    <div class="hint" *ngIf="hint && !won">{{ hint }}</div>
+
+    <form (ngSubmit)="submitGuess()" *ngIf="!won" class="form">
+      <input
+        [(ngModel)]="input"
+        name="guess"
+        placeholder="Escribe un Pokémon (ej: Bulbasaur)"
+        (input)="onInputChange()"
+        autocomplete="off"
+      />
+      <button type="submit">Probar</button>
+    </form>
+
+    <div class="suggestions" *ngIf="suggestions.length && !won">
+      <button type="button" class="sug" *ngFor="let s of suggestions" (click)="pickSuggestion(s)">
+        {{ s.name }}
+      </button>
+    </div>
+
+    <div class="table" *ngIf="rows.length">
+      <div class="head">
+        <span>Pokémon</span>
+        <span>Nombre</span>
+        <span>Tipos</span>
+        <span>HP</span>
+        <span>ATK</span>
+        <span>DEF</span>
+        <span>SpA</span>
+        <span>SpD</span>
+        <span>Speed</span>
+      </div>
+
+      <div class="row" *ngFor="let r of rows" [class.new-row]="r.isNew">
+        <span class="cell">
+          <img class="sprite"
+               [src]="r.guess.sprite"
+               (error)="$any($event.target).style.display='none'"
+               alt="" />
+        </span>
+
+        <span class="cell" [class.ok]="r.nameOk" [class.no]="!r.nameOk">
+          {{ r.guess.name }}
+        </span>
+
+        <span class="cell"
+              [class.ok]="r.types === 'ok'"
+              [class.partial]="r.types === 'partial'"
+              [class.no]="r.types === 'no'">
+          {{ r.guess.types.join(' / ') }}
+        </span>
+
+        <span class="cell" [class.ok]="r.hp.cmp==='ok'" [class.no]="r.hp.cmp!=='ok'">
+          {{ r.guess.stats.hp }} <span class="arrow">{{ r.hp.arrow }}</span>
+        </span>
+        <span class="cell" [class.ok]="r.atk.cmp==='ok'" [class.no]="r.atk.cmp!=='ok'">
+          {{ r.guess.stats.atk }} <span class="arrow">{{ r.atk.arrow }}</span>
+        </span>
+        <span class="cell" [class.ok]="r.def.cmp==='ok'" [class.no]="r.def.cmp!=='ok'">
+          {{ r.guess.stats.def }} <span class="arrow">{{ r.def.arrow }}</span>
+        </span>
+
+        <span class="cell" [class.ok]="r.spatk.cmp==='ok'" [class.no]="r.spatk.cmp!=='ok'">
+          {{ r.guess.stats.spatk }} <span class="arrow">{{ r.spatk.arrow }}</span>
+        </span>
+        <span class="cell" [class.ok]="r.spdef.cmp==='ok'" [class.no]="r.spdef.cmp!=='ok'">
+          {{ r.guess.stats.spdef }} <span class="arrow">{{ r.spdef.arrow }}</span>
+        </span>
+
+        <span class="cell" [class.ok]="r.speed.cmp==='ok'" [class.no]="r.speed.cmp!=='ok'">
+          {{ r.guess.stats.speed }} <span class="arrow">{{ r.speed.arrow }}</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

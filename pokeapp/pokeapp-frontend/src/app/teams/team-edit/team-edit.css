@@ -1,0 +1,4 @@
+/* Wrapper: no hace falta casi nada */
+:host {
+  display: block;
+}

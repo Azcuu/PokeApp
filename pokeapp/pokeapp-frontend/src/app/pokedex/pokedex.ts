@@ -16,20 +16,18 @@ export class Pokedex implements OnInit {
   pokeappService = inject(PokeappService);
   private router = inject(Router);
 
-  // Señales para el estado
   loaded = signal(false);
   loading = signal(true);
   error = signal<string | null>(null);
 
-  // Datos filtrados
+  // Dades de Pokémon
   pokemons = signal<Pokemon[]>([]);
   filteredPokemons = signal<Pokemon[]>([]);
 
-  // Filtros usando model() para two-way binding
   searchTerm = model('');
   selectedType = model('');
 
-  // Tipos disponibles
+  // Tipus de Pokémon disponibles
   pokemonTypes = [
     'Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice',
     'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic',
@@ -37,19 +35,15 @@ export class Pokedex implements OnInit {
   ];
 
   constructor() {
-    // Usar effect para reaccionar a cambios en los filtros
     effect(() => {
-      // Leer los valores para que el effect se active cuando cambien
       const search = this.searchTerm();
       const type = this.selectedType();
 
-      // Aplicar filtros
       this.applyFilters();
     });
   }
 
   ngOnInit(): void {
-    // Cargar Pokémon al inicializar
     this.loadPokemons();
   }
 
@@ -59,7 +53,7 @@ export class Pokedex implements OnInit {
 
     this.pokeappService.loadAllPokemons();
 
-    // Verificar periódicamente si se cargaron
+  
     const checkInterval = setInterval(() => {
       if (this.pokeappService.loaded()) {
         const allPokemons = this.pokeappService.pokemons();
@@ -79,16 +73,16 @@ export class Pokedex implements OnInit {
     }, 100);
   }
 
-  // Navegar a detalles
+
   goToDetail(id: number): void {
     this.router.navigate(['/pokedex', id]);
   }
 
-  // Aplicar filtros
+
   applyFilters(): void {
     let filtered = [...this.pokemons()];
 
-    // Filtrar por búsqueda
+    
     const search = this.searchTerm().toLowerCase();
     if (search) {
       filtered = filtered.filter(pokemon =>
@@ -97,7 +91,7 @@ export class Pokedex implements OnInit {
       );
     }
 
-    // Filtrar por tipo
+    
     const type = this.selectedType();
     if (type) {
       filtered = filtered.filter(pokemon =>
@@ -108,36 +102,36 @@ export class Pokedex implements OnInit {
     this.filteredPokemons.set(filtered);
   }
 
-  // Limpiar filtros
+  
   clearFilters(): void {
     this.searchTerm.set('');
     this.selectedType.set('');
     this.filteredPokemons.set([...this.pokemons()]);
   }
 
-  // Obtener tipo principal para estilos
+ 
   getPrimaryType(pokemon: Pokemon): string {
     return pokemon.type[0]?.toLowerCase() || 'normal';
   }
 
-  // Formatear ID
+
   formatId(id: number): string {
     return id.toString().padStart(3, '0');
   }
 
-  // Refrescar datos
+ 
   refresh(): void {
     this.pokeappService.refreshPokemons();
     this.loadPokemons();
   }
 
-  // MANEJO DE ERRORES EN IMÁGENES - AÑADIR ESTE MÉTODO
+ 
   onImageError(event: Event): void {
     const img = event.target as HTMLImageElement;
-    img.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png'; // Placeholder
+    img.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png'; 
   }
 
-  // Método opcional para obtener color de tipo
+ 
   getTypeColor(type: string): string {
     const colors: { [key: string]: string } = {
       'normal': '#A8A878',

@@ -38,7 +38,7 @@ export class Register {
     const p = this.password;
     const c = this.confirmPassword;
 
-    // Validación mejorada
+    
     if (!u || !e || !p || !c) {
       this.error = 'Todos los campos son obligatorios';
       return;
@@ -82,11 +82,11 @@ export class Register {
 
         this.successMessage = '¡Cuenta creada exitosamente!';
 
-        // Redirigir automáticamente después de 2 segundos
+        
         setTimeout(() => {
           if (res.token) {
             localStorage.setItem('token', res.token);
-            this.router.navigate(['/']);
+            this.router.navigate(['/my-teams']);
           } else {
             this.router.navigate(['/login']);
           }
@@ -118,11 +118,11 @@ export class Register {
     const password = this.password;
     let strength = 0;
 
-    // Longitud
+    
     if (password.length >= 6) strength += 20;
     if (password.length >= 8) strength += 10;
 
-    // Complejidad
+    
     if (/[A-Z]/.test(password)) strength += 20;
     if (/[0-9]/.test(password)) strength += 20;
     if (/[^A-Za-z0-9]/.test(password)) strength += 30;

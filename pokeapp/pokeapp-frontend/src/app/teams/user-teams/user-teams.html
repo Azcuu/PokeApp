@@ -1,0 +1,100 @@
+<div class="user-teams-page">
+   <div class="simple-header">
+    <h1><i class="fas fa-user-cog"></i> Mis Equipos</h1>
+    <button *ngIf="isAuthenticated" class="btn-logout-floating" (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+    </button>
+  </div>
+  <div *ngIf="loading" class="loading-state">
+    <div class="loading-spinner"></div>
+    <p>Cargando tus equipos...</p>
+  </div>
+
+  <div class="error-container" *ngIf="error && !loading">
+    <div class="error-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      <h3>Error</h3>
+      <p>{{ error }}</p>
+      <div class="error-actions">
+        <button class="btn-retry" (click)="reloadTeams()">
+          <i class="fas fa-redo"></i> Reintentar
+        </button>
+        <a *ngIf="error.includes('sesión') || error.includes('autorizado') || !isAuthenticated" routerLink="/login"
+          class="btn-login">
+          <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && !error && !isAuthenticated">
+    <i class="fas fa-lock"></i>
+    <h3>Acceso no autorizado</h3>
+    <p>Debes iniciar sesión para ver tus equipos</p>
+    <a routerLink="/login" class="btn-create-first">
+      <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+    </a>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && !error && isAuthenticated && teams.length === 0">
+    <i class="fas fa-users-slash"></i>
+    <h3>No tienes equipos creados</h3>
+    <p>Crea tu primer equipo para empezar a gestionarlo</p>
+    <a routerLink="/teams/create" class="btn-create-first">
+      <i class="fas fa-plus"></i> Crear mi primer equipo
+    </a>
+  </div>
+
+  <!-- Grid de mis equipos -->
+  <div class="teams-grid" *ngIf="!loading && !error && isAuthenticated && teams.length > 0">
+    <div class="team-card user-team-card" *ngFor="let team of teams">
+      <div class="card-header">
+        <h3 class="team-name">{{ team.name }}</h3>
+      </div>
+
+      <p class="team-description">{{ team.description || 'Sin descripción' }}</p>
+
+      <div class="pokemon-preview" *ngIf="team.pokemons && team.pokemons.length > 0">
+        <div class="pokemon-preview-item" *ngFor="let pokemon of team.pokemons.slice(0, 6)">
+          <img [src]="pokemon.sprite || 'assets/pokeball.png'" [alt]="pokemon.name" class="pokemon-sprite"
+            (error)="pokemon.sprite = 'assets/pokeball.png'">
+          <span class="pokemon-name">{{ pokemon.name }}</span>
+        </div>
+      </div>
+
+      <div *ngIf="!team.pokemons || team.pokemons.length === 0" class="no-pokemon">
+        <i class="fas fa-question-circle"></i>
+        <span>Sin Pokémon en este equipo</span>
+      </div>
+
+      <div class="stats-bar">
+        <div class="stat">
+          <i class="fas fa-calendar"></i>
+          <span>{{ team.createdAt | date:'dd/MM/yy' }}</span>
+        </div>
+      </div>
+
+      <div class="team-actions">
+        <button class="btn-action btn-edit" (click)="editTeam(team._id)">
+          <i class="fas fa-edit"></i> Editar
+        </button>
+        <a class="btn-action btn-view" [routerLink]="['/teams', team._id]">
+          <i class="fas fa-eye"></i> Ver
+        </a>
+        <button class="btn-action btn-delete" (click)="deleteTeam(team._id)">
+          <i class="fas fa-trash"></i> Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Solo mostrar si está autenticado -->
+  <div class="bottom-actions" *ngIf="isAuthenticated && !error">
+    <a routerLink="/teams/create" class="btn-create-large">
+      <i class="fas fa-plus-circle"></i> Crear nuevo equipo
+    </a>
+    <a routerLink="/teams" class="btn-back">
+      <i class="fas fa-arrow-left"></i> Ver todos los equipos
+    </a>
+  </div>
+</div>
