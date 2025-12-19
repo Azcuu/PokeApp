@@ -1,15 +1,13 @@
-/* Contenedor principal */
 .pokemon-details-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333; /* Color de texto por defecto */
+  color: #333;
   background: linear-gradient(135deg, #f5f7fa 0%, #e4e7ec 100%);
   min-height: 100vh;
 }
 
-/* Header del Pokémon */
 .pokemon-header {
   text-align: center;
   margin-bottom: 40px;
@@ -23,25 +21,24 @@
 .pokemon-header h1 {
   font-size: 2.8rem;
   margin: 0;
-  color: #2c3e50; /* Color oscuro para buen contraste */
+  color: #2c3e50;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .pokemon-header .japanese-name {
   font-size: 1.8rem;
-  color: #e74c3c; /* Color rojo distintivo */
+  color: #e74c3c;
   margin: 10px 0;
   font-weight: normal;
 }
 
 .pokemon-header .species {
   font-size: 1.2rem;
-  color: #7f8c8d; /* Gris oscuro visible */
+  color: #7f8c8d;
   font-style: italic;
   margin-top: 5px;
 }
 
-/* Sección de imágenes */
 .pokemon-images {
   display: flex;
   justify-content: center;
@@ -75,7 +72,6 @@
   object-fit: contain;
 }
 
-/* Tipos */
 .types-section {
   background: white;
   padding: 25px;
@@ -85,7 +81,7 @@
 }
 
 .types-section h3 {
-  color: #34495e; /* Azul oscuro */
+  color: #34495e;
   margin-bottom: 20px;
   font-size: 1.6rem;
   border-bottom: 2px solid #ecf0f1;
@@ -104,13 +100,12 @@
   font-weight: bold;
   text-transform: uppercase;
   font-size: 0.9rem;
-  color: white; /* Mantener blanco en badges (contrasta con colores fuertes) */
+  color: white;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
   letter-spacing: 1px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Colores de tipos Pokémon (texto ya es blanco) */
 .type-normal { background: linear-gradient(135deg, #A8A878, #C6C6A7); }
 .type-fire { background: linear-gradient(135deg, #F08030, #F5AC78); }
 .type-water { background: linear-gradient(135deg, #6890F0, #9DB7F5); }
@@ -130,7 +125,6 @@
 .type-steel { background: linear-gradient(135deg, #B8B8D0, #D1D1E0); }
 .type-fairy { background: linear-gradient(135deg, #EE99AC, #F4BDC9); }
 
-/* Descripción */
 .description {
   background: white;
   padding: 25px;
@@ -140,7 +134,7 @@
 }
 
 .description h3 {
-  color: #34495e; /* Azul oscuro */
+  color: #34495e;
   margin-bottom: 15px;
   font-size: 1.6rem;
   border-bottom: 2px solid #ecf0f1;
@@ -150,11 +144,10 @@
 .description p {
   line-height: 1.8;
   font-size: 1.1rem;
-  color: #2c3e50; /* Color oscuro para texto */
+  color: #2c3e50;
   text-align: justify;
 }
 
-/* Estadísticas base */
 .stats-section {
   background: white;
   padding: 30px;
@@ -164,7 +157,7 @@
 }
 
 .stats-section h3 {
-  color: #34495e; /* Azul oscuro */
+  color: #34495e;
   margin-bottom: 25px;
   font-size: 1.6rem;
   border-bottom: 2px solid #ecf0f1;
@@ -197,7 +190,7 @@
 .stat-name {
   flex: 0 0 100px;
   font-weight: bold;
-  color: #2c3e50; /* Color oscuro */
+  color: #2c3e50;
   font-size: 1rem;
 }
 
@@ -219,7 +212,6 @@
   position: relative;
 }
 
-/* Colores de barras según el valor */
 .stat-bar[style*="0%"], .stat-bar[style*="10%"], .stat-bar[style*="20%"],
 .stat-bar[style*="30%"] {
   background: linear-gradient(90deg, #e74c3c, #f39c12);
@@ -258,7 +250,7 @@
   text-align: center;
   font-weight: bold;
   font-size: 1.1rem;
-  color: #2c3e50; /* Color oscuro */
+  color: #2c3e50;
   background: white;
   padding: 5px 10px;
   border-radius: 20px;
@@ -271,7 +263,7 @@
   text-align: center;
   padding: 20px;
   background: linear-gradient(135deg, #3498db, #2980b9);
-  color: white; /* Blanco OK aquí (fondo azul oscuro) */
+  color: white;
   border-radius: 10px;
   font-size: 1.3rem;
   margin-top: 10px;
@@ -283,7 +275,6 @@
   letter-spacing: 1px;
 }
 
-/* Perfil - CORREGIDO */
 .profile-section {
   background: white;
   padding: 25px;
@@ -293,7 +284,7 @@
 }
 
 .profile-section h3 {
-  color: #34495e; /* Azul oscuro */
+  color: #34495e;
   margin-bottom: 20px;
   font-size: 1.6rem;
   border-bottom: 2px solid #ecf0f1;
@@ -301,7 +292,7 @@
 }
 
 .profile-section h4 {
-  color: #2c3e50; /* Color oscuro para subtítulos */
+  color: #2c3e50;
   margin: 20px 0 15px 0;
   font-size: 1.3rem;
 }
@@ -318,15 +309,14 @@
   background: #f8f9fa;
   border-radius: 10px;
   font-size: 1.1rem;
-  color: #2c3e50; /* Color oscuro para texto */
+  color: #2c3e50;
 }
 
 .profile-item strong {
-  color: #2c3e50; /* Color oscuro */
+  color: #2c3e50;
   margin-right: 10px;
 }
 
-/* Habilidades - CORREGIDO */
 .abilities-list {
   list-style: none;
   padding: 0;
@@ -343,19 +333,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #2c3e50; /* Color oscuro */
+  color: #2c3e50;
 }
 
 .hidden-ability {
   font-size: 0.9rem;
-  color: #e74c3c; /* Rojo para habilidad oculta */
+  color: #e74c3c;
   font-weight: bold;
   background: rgba(231, 76, 60, 0.1);
   padding: 3px 8px;
   border-radius: 12px;
 }
 
-/* Evolución */
 .evolution-section {
   background: white;
   padding: 25px;
@@ -365,7 +354,7 @@
 }
 
 .evolution-section h3 {
-  color: #34495e; /* Azul oscuro */
+  color: #34495e;
   margin-bottom: 20px;
   font-size: 1.6rem;
   border-bottom: 2px solid #ecf0f1;
@@ -386,7 +375,7 @@
   background: #f8f9fa;
   border-radius: 10px;
   transition: all 0.3s ease;
-  color: #2c3e50; /* Color oscuro */
+  color: #2c3e50;
 }
 
 .evolution-step:hover {
@@ -396,17 +385,16 @@
 
 .evolution-to {
   font-weight: bold;
-  color: #3498db; /* Azul para número de evolución */
+  color: #3498db;
   font-size: 1.1rem;
 }
 
 .evolution-method {
-  color: #7f8c8d; /* Gris para método */
+  color: #7f8c8d;
   font-style: italic;
   font-size: 0.95rem;
 }
 
-/* Nombres internacionales - CORREGIDO */
 .names-section {
   background: white;
   padding: 25px;
@@ -416,7 +404,7 @@
 }
 
 .names-section h3 {
-  color: #34495e; /* Azul oscuro */
+  color: #34495e;
   margin-bottom: 20px;
   font-size: 1.6rem;
   border-bottom: 2px solid #ecf0f1;
@@ -437,7 +425,7 @@
   text-align: center;
   border: 2px solid transparent;
   transition: all 0.3s ease;
-  color: #2c3e50; /* Color oscuro */
+  color: #2c3e50;
 }
 
 .name-item:hover {
@@ -446,13 +434,12 @@
 }
 
 .name-item strong {
-  color: #2c3e50; /* Color oscuro */
+  color: #2c3e50;
   display: block;
   margin-bottom: 8px;
   font-size: 1rem;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .pokemon-header h1 {
     font-size: 2rem;
@@ -507,7 +494,6 @@
   }
 }
 
-/* Animación de carga */
 @keyframes shimmer {
   0% { background-position: -200px 0; }
   100% { background-position: 200px 0; }

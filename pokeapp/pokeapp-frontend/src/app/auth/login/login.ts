@@ -1,9 +1,7 @@
-// login.ts
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { finalize } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -23,7 +21,12 @@ export class Login {
 
   private apiUrl = 'http://localhost:3000/user/login';
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
+  ) {
     const savedEmail = localStorage.getItem('savedEmail');
     if (savedEmail) {
       this.email = savedEmail;
@@ -33,61 +36,85 @@ export class Login {
 
   login() {
     this.error = '';
-    const e = this.email.trim();
-    const p = this.password;
+    const email = this.email.trim();
+    const password = this.password;
 
-    if (!e || !p) {
+    if (!email || !password) {
       this.error = 'Introduce email y contraseña';
+      this.cdr.detectChanges();
       return;
     }
 
-    if (!this.isValidEmail(e)) {
+    if (!this.isValidEmail(email)) {
       this.error = 'Email no válido';
+      this.cdr.detectChanges();
       return;
     }
 
     this.loading = true;
+    this.cdr.detectChanges();
 
-    this.http.post<any>(this.apiUrl, { email: e, password: p })
-      .pipe(finalize(() => this.loading = false))
+    this.http.post<any>(this.apiUrl, { email, password })
       .subscribe({
-        next: (res) => {
-          if (!res?.success || !res?.token) {
-            this.error = res?.error || 'Login incorrecto';
+        next: (response) => {
+          console.log('Respuesta recibida:', response);
+
+          this.ngZone.run(() => {
+            this.loading = false;
+            this.cdr.detectChanges();
+          });
+
+          if (!response?.success || !response?.token) {
+            this.error = response?.error || 'Credenciales incorrectas';
+            this.cdr.detectChanges();
             return;
           }
 
-          // Guardar token i usuari
-          localStorage.setItem('token', res.token);
-          if (res?.user) {
-            localStorage.setItem('user', JSON.stringify(res.user));
-            localStorage.setItem('username', res.user.username);
+          localStorage.setItem('token', response.token);
+          if (response?.user) {
+            localStorage.setItem('user', JSON.stringify(response.user));
+            localStorage.setItem('username', response.user.username);
           }
 
-          
           if (this.rememberMe) {
-            localStorage.setItem('savedEmail', e);
+            localStorage.setItem('savedEmail', email);
           } else {
             localStorage.removeItem('savedEmail');
           }
 
-          this.router.navigate(['my-teams']);
+          setTimeout(() => {
+            this.router.navigate(['/my-teams']);
+          }, 100);
         },
-        error: (e) => {
-          console.error('Login error:', e);
-          this.error = e?.error?.error ||
-                      e?.error?.message ||
-                      'Usuario o contraseña incorrectos';
+        error: (error: HttpErrorResponse) => {
+          console.log('Error recibido:', error);
+
+          this.ngZone.run(() => {
+            this.loading = false;
+            this.cdr.detectChanges();
+
+            if (error.status === 401) {
+              this.error = error.error?.error || 'Credenciales inválidas';
+            }
+            else if (error.status === 0) {
+              this.error = 'Error de conexión. Verifica tu internet.';
+            }
+            else if (error.status >= 500) {
+              this.error = 'Error del servidor. Intenta más tarde.';
+            }
+            else {
+              this.error = error.error?.error || error.message || 'Error desconocido';
+            }
+
+            this.cdr.detectChanges();
+          });
         }
       });
   }
 
   togglePassword() {
     this.showPassword = !this.showPassword;
-    const passwordInput = document.querySelector('[name="password"]') as HTMLInputElement;
-    if (passwordInput) {
-      passwordInput.type = this.showPassword ? 'text' : 'password';
-    }
+    this.cdr.detectChanges();
   }
 
   private isValidEmail(email: string): boolean {

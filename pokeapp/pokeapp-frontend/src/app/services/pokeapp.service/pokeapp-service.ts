@@ -40,7 +40,6 @@ export class PokeappService {
     return this.http.get<Pokemon>(`${this.baseUrl}/pokemons/${id}`);
   }
 
-  // Para búsqueda/filtrado
   searchPokemonByName(name: string): Pokemon[] {
     const searchTerm = name.toLowerCase();
     return this.pokemons().filter(pokemon =>
@@ -55,7 +54,6 @@ export class PokeappService {
     );
   }
 
-  // Refrescar datos
   refreshPokemons(): void {
     this.loaded.set(false);
     this.loadAllPokemons();

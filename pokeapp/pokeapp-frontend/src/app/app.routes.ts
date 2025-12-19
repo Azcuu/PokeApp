@@ -61,7 +61,7 @@ export const routes: Routes = [
     title: 'My Teams'
   },
 
-  
+
   {
   path: 'teams/edit/:id',
   loadComponent: () => import('./teams/team-edit/team-edit').then(m => m.TeamEdit),

@@ -45,7 +45,6 @@
     </a>
   </div>
 
-  <!-- Grid de mis equipos -->
   <div class="teams-grid" *ngIf="!loading && !error && isAuthenticated && teams.length > 0">
     <div class="team-card user-team-card" *ngFor="let team of teams">
       <div class="card-header">
@@ -70,7 +69,7 @@
       <div class="stats-bar">
         <div class="stat">
           <i class="fas fa-calendar"></i>
-          <span>{{ team.createdAt | date:'dd/MM/yy' }}</span>
+          <span>Creado el {{ team.createdAt | date:'dd/MM/yy' }}</span>
         </div>
       </div>
 
@@ -88,7 +87,6 @@
     </div>
   </div>
 
-  <!-- Solo mostrar si está autenticado -->
   <div class="bottom-actions" *ngIf="isAuthenticated && !error">
     <a routerLink="/teams/create" class="btn-create-large">
       <i class="fas fa-plus-circle"></i> Crear nuevo equipo

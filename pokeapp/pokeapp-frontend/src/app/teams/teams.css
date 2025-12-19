@@ -1,6 +1,4 @@
-/* teams.css - Añade estos estilos */
 
-/* Debug actions */
 .debug-actions {
   display: flex;
   gap: 10px;
@@ -41,7 +39,6 @@
   background: #2563eb;
 }
 
-/* Error container */
 .error-container {
   background: rgba(239, 68, 68, 0.1);
   border-radius: 15px;
@@ -72,7 +69,6 @@
   font-style: italic;
 }
 
-/* No teams state */
 .no-teams {
   text-align: center;
   padding: 60px 20px;
@@ -116,7 +112,6 @@
   box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
 }
 
-/* Team card improvements */
 .team-card {
   background: rgba(30, 41, 59, 0.8);
   border-radius: 15px;
@@ -147,7 +142,6 @@
   margin-top: 10px;
 }
 
-/* Pokémon preview fixes */
 .pokemon-preview {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -181,7 +175,6 @@
   white-space: nowrap;
 }
 
-/* No Pokémon */
 .no-pokemon {
   text-align: center;
   padding: 20px;
@@ -195,7 +188,6 @@
   gap: 10px;
 }
 
-/* Team tags */
 .team-tags {
   display: flex;
   flex-wrap: wrap;
@@ -211,7 +203,6 @@
   font-size: 0.8rem;
 }
 
-/* Card footer */
 .card-footer {
   display: flex;
   justify-content: space-between;
@@ -246,16 +237,13 @@
   background: #1e40af;
 }
 
-/* teams.css - AÑADE ESTO AL FINAL DEL ARCHIVO */
 
-/* Contenedor principal */
 .teams-page {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Grid para los equipos */
 .teams-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -263,7 +251,6 @@
   margin: 30px 0;
 }
 
-/* Estilos para el encabezado de la tarjeta */
 .card-header {
   margin-bottom: 15px;
 }
@@ -281,7 +268,6 @@
   font-size: 0.95rem;
 }
 
-/* Botón de gestionar */
 .btn-manage {
   background: #10b981;
   color: white;
@@ -305,11 +291,35 @@
   margin-top: 40px;
 }
 
-/* Línea separadora */
 hr {
   border: none;
   height: 1px;
   background: rgba(255, 255, 255, 0.1);
   margin: 40px 0;
 }
+
+.teams-page h1 {
+  text-align: center;
+  font-size: 3rem;
+  margin: 20px 0 40px;
+  color: #ffcb05;
+  text-shadow: 3px 3px 0 #2a75bb, 6px 6px 0 rgba(0, 0, 0, 0.2);
+  letter-spacing: 2px;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.teams-page h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #ffcb05, transparent);
+  border-radius: 2px;
+}
+
 

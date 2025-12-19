@@ -33,7 +33,6 @@ export class PokemonDetails {
     });
   }
 
-  // Convertir objeto base a array para *ngFor
   getBaseStatsArray(baseStats: any): Array<{name: string, value: number}> {
     return Object.entries(baseStats).map(([key, value]) => ({
       name: key,
@@ -41,18 +40,15 @@ export class PokemonDetails {
     }));
   }
 
-  // Calcular porcentaje para barras de stats (max 255 como en Pokémon)
   getStatPercentage(value: number): number {
-    const maxStat = 255; // Máximo posible en Pokémon
+    const maxStat = 255;
     return (value / maxStat) * 100;
   }
 
-  // Sumar todas las stats para total
   getTotalStats(baseStats: any): number {
     return Object.values(baseStats).reduce((sum: number, val: any) => sum + val, 0);
   }
 
-  // Verificar si es tipo especial (para colores)
   isSpecialStat(statName: string): boolean {
     return statName.includes('Sp.');
   }

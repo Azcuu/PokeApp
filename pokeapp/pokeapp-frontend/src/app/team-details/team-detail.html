@@ -1,23 +1,13 @@
-<!-- team-details.html -->
 <div class="team-details-page">
-  <!-- Header -->
   <div class="team-header">
     <a routerLink="/my-teams" class="back-button">
       <i class="fas fa-arrow-left"></i> Volver a mis equipos
     </a>
-    
+
     <div class="team-title-section">
       <h1 class="team-title">{{ team?.name || 'Cargando...' }}</h1>
-      <div class="team-meta">
-        <span class="team-creator">
-          <i class="fas fa-user"></i> {{ team?.creatorName || 'Usuario' }}
-        </span>
-        <span class="team-date">
-          <i class="fas fa-calendar"></i> {{ team?.createdAt | date:'dd/MM/yyyy' }}
-        </span>
-      </div>
     </div>
-    
+
     <div class="team-actions" *ngIf="isOwner">
       <button class="btn-edit" [routerLink]="['/teams', teamId, 'edit']">
         <i class="fas fa-edit"></i> Editar
@@ -28,13 +18,11 @@
     </div>
   </div>
 
-  <!-- Loading State -->
   <div class="loading-state" *ngIf="loading">
     <div class="loading-spinner"></div>
     <p>Cargando detalles del equipo...</p>
   </div>
 
-  <!-- Error State -->
   <div class="error-state" *ngIf="error && !loading">
     <div class="error-message">
       <i class="fas fa-exclamation-triangle"></i>
@@ -46,15 +34,12 @@
     </div>
   </div>
 
-  <!-- Team Content -->
   <div class="team-content" *ngIf="!loading && !error && team">
-    <!-- Description -->
     <div class="team-description-card">
       <h2><i class="fas fa-info-circle"></i> Descripción</h2>
       <p>{{ team.description || 'Este equipo no tiene descripción.' }}</p>
     </div>
 
-    <!-- Pokémon Stats -->
     <div class="stats-section">
       <div class="stat-card">
         <h3><i class="fas fa-chart-bar"></i> Estadísticas del equipo</h3>
@@ -75,7 +60,6 @@
       </div>
     </div>
 
-    <!-- Pokémon List -->
     <div class="pokemon-section">
       <h2><i class="fas fa-dragon"></i> Pokémon en el equipo</h2>
 
@@ -85,90 +69,90 @@
             <span class="pokemon-number">#{{ pokemon.pokemonId.toString().padStart(3, '0') || '???' }}</span>
             <h3 class="pokemon-name">{{ pokemon.name | titlecase }}</h3>
           </div>
-          
+
           <div class="pokemon-image">
-            <img [src]="pokemon.sprite || '/pokeball.png'" 
+            <img [src]="pokemon.sprite || '/pokeball.png'"
                  [alt]="pokemon.name"
                  (error)="pokemon.sprite = '/pokeball.png'"
                  class="pokemon-sprite">
             <div class="pokemon-position">#{{ i + 1 }}</div>
           </div>
-          
+
           <div class="pokemon-info">
             <div class="pokemon-types">
-              <span class="type-badge" *ngFor="let type of getPokemonTypes(pokemon)" 
+              <span class="type-badge" *ngFor="let type of getPokemonTypes(pokemon)"
                     [class]="'type-' + type.toLowerCase()">
                 {{ type }}
               </span>
             </div>
-            
+
             <div class="pokemon-stats">
               <!-- HP -->
               <div class="stat-row">
                 <span>HP</span>
                 <span class="stat-value-text">{{ getPokemonStatValue(pokemon, 'HP') }}</span>
                 <div class="stat-bar">
-                  <div class="stat-fill" 
+                  <div class="stat-fill"
                        [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'HP'), 'HP')"
                        [style.background]="'linear-gradient(90deg, ' + getStatColor('HP') + ', ' + getStatColor('HP') + 'dd)'">
                   </div>
                 </div>
               </div>
-              
+
               <!-- Ataque -->
               <div class="stat-row">
                 <span>Ataque</span>
                 <span class="stat-value-text">{{ getPokemonStatValue(pokemon, 'Ataque') }}</span>
                 <div class="stat-bar">
-                  <div class="stat-fill" 
+                  <div class="stat-fill"
                        [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Ataque'), 'Ataque')"
                        [style.background]="'linear-gradient(90deg, ' + getStatColor('Ataque') + ', ' + getStatColor('Ataque') + 'dd)'">
                   </div>
                 </div>
               </div>
-              
+
               <!-- Defensa -->
               <div class="stat-row">
                 <span>Defensa</span>
                 <span class="stat-value-text">{{ getPokemonStatValue(pokemon, 'Defensa') }}</span>
                 <div class="stat-bar">
-                  <div class="stat-fill" 
+                  <div class="stat-fill"
                        [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Defensa'), 'Defensa')"
                        [style.background]="'linear-gradient(90deg, ' + getStatColor('Defensa') + ', ' + getStatColor('Defensa') + 'dd)'">
                   </div>
                 </div>
               </div>
-              
+
               <!-- Ataque Especial -->
               <div class="stat-row">
                 <span>Ataque Especial</span>
                 <span class="stat-value-text">{{ getPokemonStatValue(pokemon, 'Ataque Especial') }}</span>
                 <div class="stat-bar">
-                  <div class="stat-fill" 
+                  <div class="stat-fill"
                        [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Ataque Especial'), 'Ataque Especial')"
                        [style.background]="'linear-gradient(90deg, ' + getStatColor('Ataque Especial') + ', ' + getStatColor('Ataque Especial') + 'dd)'">
                   </div>
                 </div>
               </div>
-              
+
               <!-- Defensa Especial -->
               <div class="stat-row">
                 <span>Defensa Especial</span>
                 <span class="stat-value-text">{{ getPokemonStatValue(pokemon, 'Defensa Especial') }}</span>
                 <div class="stat-bar">
-                  <div class="stat-fill" 
+                  <div class="stat-fill"
                        [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Defensa Especial'), 'Defensa Especial')"
                        [style.background]="'linear-gradient(90deg, ' + getStatColor('Defensa Especial') + ', ' + getStatColor('Defensa Especial') + 'dd)'">
                   </div>
                 </div>
               </div>
-              
+
               <!-- Velocidad -->
               <div class="stat-row">
                 <span>Velocidad</span>
                 <span class="stat-value-text">{{ getPokemonStatValue(pokemon, 'Velocidad') }}</span>
                 <div class="stat-bar">
-                  <div class="stat-fill" 
+                  <div class="stat-fill"
                        [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Velocidad'), 'Velocidad')"
                        [style.background]="'linear-gradient(90deg, ' + getStatColor('Velocidad') + ', ' + getStatColor('Velocidad') + 'dd)'">
                   </div>
@@ -176,7 +160,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="pokemon-actions">
             <button class="btn-view-pokemon" (click)="viewPokemonDetails(pokemon.pokemonId)">
               <i class="fas fa-eye"></i> Ver detalles
@@ -189,7 +173,6 @@
       </div>
     </div>
 
-    <!-- Tags -->
     <div class="tags-section" *ngIf="team.tags && team.tags.length > 0">
       <h2><i class="fas fa-tags"></i> Etiquetas</h2>
       <div class="tags-container">
@@ -199,7 +182,6 @@
       </div>
     </div>
 
-    <!-- Team Info -->
     <div class="info-section">
       <div class="info-card">
         <h3><i class="fas fa-database"></i> Información del equipo</h3>
@@ -225,7 +207,6 @@
     </div>
   </div>
 
-  <!-- Footer Actions -->
   <div class="footer-actions" *ngIf="!loading && !error">
     <button class="btn-share" (click)="shareTeam()" *ngIf="team?.isPublic">
       <i class="fas fa-share-alt"></i> Compartir equipo

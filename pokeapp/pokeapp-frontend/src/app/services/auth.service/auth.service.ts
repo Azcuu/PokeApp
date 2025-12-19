@@ -38,25 +38,15 @@ export class AuthService {
   }
 
 
-  register(username: string, password: string, email?: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, { username, password, email });
+  register(username: string, email: string, password?: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, { username, email, password });
   }
 
 
-  login(username: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
+  login(email: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
       tap(res => this.handleAuthResponse(res))
     );
-  }
-
-
-  getProfile(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/profile`, { headers: this.authHeaders() });
-  }
-
-  // Si tu backend tiene PUT /user/profile, lo dejamos preparado:
-  updateProfile(data: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/profile`, data, { headers: this.authHeaders() });
   }
 
   private handleAuthResponse(res: AuthResponse) {
@@ -88,7 +78,6 @@ export class AuthService {
     return !!this.token;
   }
 
-  // Para TeamsService (o quien lo necesite)
   authHeaders(): HttpHeaders {
     const t = this.token || localStorage.getItem('token');
     return new HttpHeaders(t ? { Authorization: `Bearer ${t}` } : {});

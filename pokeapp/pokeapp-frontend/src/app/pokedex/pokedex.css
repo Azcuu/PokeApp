@@ -1,4 +1,3 @@
-/* Pokedex Styles */
 :host {
   display: block;
   min-height: 100vh;
@@ -13,7 +12,6 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Header */
 .pokedex-container h1 {
   text-align: center;
   font-size: 3rem;
@@ -38,7 +36,6 @@
   border-radius: 2px;
 }
 
-/* Loading State */
 .loading {
   text-align: center;
   padding: 60px 20px;
@@ -71,7 +68,6 @@
   margin: 0;
 }
 
-/* Error State */
 .error {
   text-align: center;
   padding: 40px 20px;
@@ -112,7 +108,6 @@
   box-shadow: 0 6px 20px rgba(255, 87, 87, 0.4);
 }
 
-/* Filters Section */
 .filters-section {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
@@ -222,7 +217,6 @@
   border-radius: 10px;
 }
 
-/* Pokemon Grid */
 .pokemon-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -259,7 +253,6 @@
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Type Colors */
 .type-Normal { --type-color: #A8A878; }
 .type-Fire { --type-color: #F08030; }
 .type-Water { --type-color: #6890F0; }
@@ -378,7 +371,6 @@
   color: white;
 }
 
-/* No Results */
 .no-results {
   text-align: center;
   padding: 60px 20px;
@@ -410,7 +402,6 @@
   box-shadow: 0 8px 20px rgba(255, 203, 5, 0.3);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .pokedex-container {
     padding: 10px;
@@ -467,7 +458,6 @@
   }
 }
 
-/* Animation for card appearance */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -492,7 +482,6 @@
 .pokemon-card:nth-child(6) { animation-delay: 0.6s; }
 .pokemon-card:nth-child(n+7) { animation-delay: 0.7s; }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -511,7 +500,6 @@
   background: linear-gradient(135deg, #ffaa00, #1a5ba0);
 }
 
-/* Type Colors */
 .type-Normal { --type-color: #A8A878; }
 .type-Fire { --type-color: #F08030; }
 .type-Water { --type-color: #6890F0; }
@@ -531,7 +519,6 @@
 .type-Steel { --type-color: #B8B8D0; }
 .type-Fairy { --type-color: #EE99AC; }
 
-/* Clases individuales para cada badge */
 .badge-normal { background: var(--type-color, #A8A878); }
 .badge-fire { background: var(--type-color, #F08030); }
 .badge-water { background: var(--type-color, #6890F0); }
@@ -551,7 +538,6 @@
 .badge-steel { background: var(--type-color, #B8B8D0); }
 .badge-fairy { background: var(--type-color, #EE99AC); }
 
-/* Estilo base del badge */
 .type-badge {
   font-size: 0.8rem;
   padding: 4px 12px;

@@ -39,7 +39,6 @@ export class TeamCreate implements OnInit {
     'Competitivo','Shiny','Legendario','Starter','Monotype','Balanceado','Ofensivo','Defensivo','Rápido','Trick Room'
   ];
 
-  // selector
   showPokemonSelector = false;
   allPokemons: PokemonApi[] = [];
   filteredPokemons: PokemonApi[] = [];
@@ -86,7 +85,6 @@ export class TeamCreate implements OnInit {
     return p?.image?.sprite || p?.image?.thumbnail || '';
   }
 
-  // ----------- pokemons -----------
   private loadAllPokemons(): void {
     this.loadingPokemons = true;
     this.errorPokemons = '';
@@ -176,7 +174,7 @@ export class TeamCreate implements OnInit {
       return;
     }
 
-  
+
     this.filteredPokemons = this.allPokemons.filter((p: PokemonApi) => {
       const en = (p?.name?.english || '').toLowerCase();
       const jp = (p?.name?.japanese || '').toLowerCase();
@@ -209,7 +207,6 @@ export class TeamCreate implements OnInit {
     this.cdr.detectChanges();
   }
 
-  // ----------- tags -----------
   toggleTag(tag: string): void {
     const idx = this.selectedTags.indexOf(tag);
     if (idx === -1) this.selectedTags.push(tag);
@@ -263,7 +260,7 @@ export class TeamCreate implements OnInit {
     }
 
 
-    
+
 
 const updateData = {
   name: this.teamForm.value.name,
@@ -288,7 +285,7 @@ this.teamsService.updateTeam(this.teamId!, updateData).subscribe({
 
   cancel(): void {
     if (confirm('¿Seguro que quieres cancelar? Los cambios no se guardarán.')) {
-      this.router.navigate(['/teams']);
+      this.router.navigate(['my-teams']);
     }
   }
 }

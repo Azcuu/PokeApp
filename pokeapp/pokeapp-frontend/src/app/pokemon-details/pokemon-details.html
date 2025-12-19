@@ -1,20 +1,17 @@
 <div *ngIf="loading()">Cargando detalles...</div>
 
 <div *ngIf="!loading() && pokemon() as p">
-  <!-- Header -->
   <div class="pokemon-header">
     <h1>#{{ p.id.toString().padStart(3, '0') }} - {{ p.name.english | titlecase }}</h1>
     <h3 class="japanese-name">{{ p.name.japanese }}</h3>
     <p class="species">{{ p.species || 'Pokémon' }}</p>
   </div>
 
-  <!-- Imágenes -->
   <div class="pokemon-images">
     <img [src]="p.image.sprite" [alt]="p.name.english" class="sprite" referrerpolicy="no-referrer">
     <img [src]="p.image.hires" [alt]="p.name.english + ' hires'" class="hires" *ngIf="p.image.hires" referrerpolicy="no-referrer">
   </div>
 
-  <!-- Tipos -->
   <div class="types-section">
     <h3>Tipos</h3>
     <div class="type-badges">
@@ -25,13 +22,11 @@
     </div>
   </div>
 
-  <!-- Descripción -->
   <div class="description" *ngIf="p.description">
     <h3>Descripción</h3>
     <p>{{ p.description }}</p>
   </div>
 
-  <!-- Estadísticas base -->
   <div class="stats-section">
     <h3>Estadísticas Base</h3>
     <div class="stats-grid">
@@ -48,7 +43,6 @@
     </div>
   </div>
 
-  <!-- Perfil -->
   <div class="profile-section" *ngIf="p.profile">
     <h3>Perfil</h3>
     <div class="profile-grid">
@@ -60,7 +54,6 @@
       </div>
     </div>
 
-    <!-- Habilidades -->
     <div *ngIf="p.profile.ability.length">
       <h4>Habilidades</h4>
       <ul class="abilities-list">
@@ -74,7 +67,6 @@
     </div>
   </div>
 
-  <!-- Evolución -->
   <div class="evolution-section" *ngIf="p.evolution?.next?.length">
     <h3>Evolución</h3>
     <div class="evolution-chain">
@@ -85,7 +77,6 @@
     </div>
   </div>
 
-  <!-- Nombres en otros idiomas -->
   <div class="names-section">
     <h3>Nombres Internacionales</h3>
     <div class="names-grid">

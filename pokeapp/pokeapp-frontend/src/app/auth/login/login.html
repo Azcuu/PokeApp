@@ -1,4 +1,3 @@
-<!-- login.html -->
 <div class="auth">
   <h1>Login</h1>
 
@@ -10,6 +9,7 @@
       type="email"
       placeholder="ej: usuario@ejemplo.com"
       required
+      autocomplete="email"
     />
 
     <label>Contraseña</label>
@@ -17,20 +17,30 @@
       <input
         [(ngModel)]="password"
         name="password"
-        type="password"
+        [type]="showPassword ? 'text' : 'password'"
         placeholder="Tu contraseña"
         required
+        autocomplete="current-password"
       />
-      <button type="button" class="toggle-password" (click)="togglePassword()">
-        
+      <button type="button" class="toggle-password" (click)="togglePassword()"
+              [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+        <span class="eye-icon" [class.eye-open]="showPassword">👁</span>
       </button>
     </div>
 
+    <div class="login-options">
+      <label class="remember-me">
+        <input type="checkbox" [(ngModel)]="rememberMe" name="remember" />
+        Recordarme
+      </label>
+    </div>
+
     <button type="submit" [disabled]="loading" [class.loading]="loading">
-      {{ loading ? 'Entrando...' : 'Entrar' }}
+      <span *ngIf="!loading">Entrar</span>
+      <span *ngIf="loading">Entrando...</span>
     </button>
 
-    <p class="error" *ngIf="error">{{ error }}</p>
+    <p class="error" *ngIf="error" role="alert">{{ error }}</p>
   </form>
 
   <p class="hint">

@@ -1,8 +1,6 @@
-<!-- teams.html -->
 <div class="teams-page">
   <h1>Teams</h1>
 
-  <!-- Botón de debug -->
   <div class="debug-actions" *ngIf="error">
     <button (click)="reloadTeams()" class="btn-retry">
       <i class="fas fa-redo"></i> Reintentar
@@ -34,21 +32,25 @@
     </a>
   </div>
 
-  <!-- Grid de equipos -->
+  <div class="action-buttons">
+    <a routerLink="/my-teams" class="btn-manage">
+      <i class="fas fa-cog"></i> Gestionar mis equipos
+    </a>
+  </div>
+
   <div class="teams-grid" *ngIf="!loading && !error && teams.length > 0">
     <div class="team-card" *ngFor="let team of teams">
       <div class="card-header">
         <h3 class="team-name">{{ team.name }}</h3>
         <div class="team-meta">
           <span class="team-creator">
-            <i class="fas fa-user"></i>Por: {{ team.creatorName }}
+            <i class="fas fa-user"></i>Creado por: {{ team.creatorName }}
           </span>
         </div>
       </div>
 
       <p class="team-description">{{ team.description || 'Sin descripción' }}</p>
 
-      <!-- Previsualización de Pokémon -->
       <div class="pokemon-preview" *ngIf="team.pokemons && team.pokemons.length > 0">
         <div class="pokemon-preview-item" *ngFor="let pokemon of team.pokemons.slice(0, 6)">
           <img [src]="pokemon.sprite || 'assets/pokeball.png'"
@@ -66,7 +68,7 @@
 
       <div class="card-footer">
         <div class="team-date">
-          <i class="fas fa-calendar"></i> {{ team.createdAt | date:'dd/MM/yyyy' }}
+          <i class="fas fa-calendar"></i>Creado el {{ team.createdAt | date:'dd/MM/yyyy' }}
         </div>
         <div class="card-actions">
           <a [routerLink]="['/teams', team._id]" class="view-btn">
@@ -78,10 +80,4 @@
   </div>
 
   <hr *ngIf="!loading && !error && teams.length > 0" />
-
-  <div class="action-buttons">
-    <a routerLink="/my-teams" class="btn-manage">
-      <i class="fas fa-cog"></i> Gestionar mis equipos
-    </a>
-  </div>
 </div>

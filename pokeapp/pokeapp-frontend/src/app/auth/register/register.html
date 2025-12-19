@@ -1,4 +1,3 @@
-<!-- register.html -->
 <div class="auth">
   <h1>Registro</h1>
 
@@ -9,6 +8,7 @@
       name="username"
       placeholder="ej: pikachu123"
       required
+      autocomplete="username"
     />
 
     <label>Email</label>
@@ -18,6 +18,7 @@
       type="email"
       placeholder="ej: usuario@ejemplo.com"
       required
+      autocomplete="email"
     />
 
     <label>Contraseña</label>
@@ -28,14 +29,15 @@
         [type]="showPassword ? 'text' : 'password'"
         placeholder="mínimo 6 caracteres"
         required
+        autocomplete="new-password"
         (input)="checkPasswordStrength()"
       />
-      <button type="button" class="toggle-password" (click)="togglePassword()">
-        {{ showPassword ? '🙈' : '👁️' }}
+      <button type="button" class="toggle-password" (click)="togglePassword()"
+              [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+        <span class="eye-icon" [class.eye-open]="showPassword">👁</span>
       </button>
     </div>
 
-    
     <div class="password-strength" *ngIf="password">
       <div class="strength-bar">
         <div class="strength-fill" [style.width.%]="passwordStrength"
@@ -54,26 +56,28 @@
         [type]="showConfirmPassword ? 'text' : 'password'"
         placeholder="repite la contraseña"
         required
+        autocomplete="new-password"
       />
-      <button type="button" class="toggle-password" (click)="toggleConfirmPassword()">
-        {{ showConfirmPassword ? '🙈' : '👁️' }}
+      <button type="button" class="toggle-password" (click)="toggleConfirmPassword()"
+              [attr.aria-label]="showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+        <span class="eye-icon" [class.eye-open]="showConfirmPassword">👁</span>
       </button>
     </div>
 
-    
-    <div class="terms">
+    <label class="terms">
       <input type="checkbox" [(ngModel)]="acceptTerms" name="acceptTerms" required>
       <span>
         Acepto los <a href="#" (click)="$event.preventDefault()">términos y condiciones</a>
       </span>
-    </div>
+    </label>
 
     <button type="submit" [disabled]="loading || !acceptTerms" [class.loading]="loading">
-      {{ loading ? 'Creando cuenta...' : 'Registrarse' }}
+      <span *ngIf="!loading">Registrarse</span>
+      <span *ngIf="loading">Creando cuenta...</span>
     </button>
 
-    <p class="error" *ngIf="error">{{ error }}</p>
-    <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+    <p class="error" *ngIf="error" role="alert">{{ error }}</p>
+    <p class="success" *ngIf="successMessage" role="status">{{ successMessage }}</p>
   </form>
 
   <p class="hint">

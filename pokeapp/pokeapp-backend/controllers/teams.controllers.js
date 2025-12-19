@@ -17,12 +17,10 @@ export async function getAllTeams(req, res) {
     
     let query = { isPublic: true };
     
-    // Buscar per text
     if (search) {
       query.$text = { $search: search };
     }
     
-    // Filtre per tag
     if (tag) {
       query.tags = tag;
     }
@@ -79,7 +77,7 @@ export async function getTeamById(req, res) {
     const pokemonsFull = await PokemonModel.find({ 
       id: { $in: pokemonIds } 
     })
-    .select('id name.english image.sprite type base') // Solo los campos necesarios
+    .select('id name.english image.sprite type base') 
     .lean();
     
     const pokemonMap = new Map();
@@ -114,12 +112,10 @@ export async function createTeam(req, res) {
   try {
     const { name, description, pokemonIds, tags, isPublic } = req.body;
     
-    // Verficar que no hi hagi més de 6 Pokémon
     if (pokemonIds && pokemonIds.length > 6) {
       return res.status(400).json({ error: 'Máximo 6 Pokémon por equipo' });
     }
     
-    // Buscar els Pokemon en DB
     const pokemons = await PokemonModel.find({ 
       id: { $in: pokemonIds } 
     }).lean();

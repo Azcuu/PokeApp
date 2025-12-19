@@ -1,5 +1,5 @@
-// register.ts
-import { Component } from '@angular/core';
+// register.ts - VERSIÓN CON ChangeDetectorRef
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -27,7 +27,11 @@ export class Register {
   error = '';
   successMessage = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   submit() {
     this.error = '';
@@ -38,7 +42,6 @@ export class Register {
     const p = this.password;
     const c = this.confirmPassword;
 
-    
     if (!u || !e || !p || !c) {
       this.error = 'Todos los campos son obligatorios';
       return;
@@ -70,64 +73,73 @@ export class Register {
     }
 
     this.loading = true;
+    this.cdr.detectChanges();
 
-    this.auth.register(u, e, p).subscribe({
-      next: (res: any) => {
-        this.loading = false;
+    this.auth.register(u, e, p)
+      .subscribe({
+        next: (res: any) => {
+          this.loading = false;
+          this.cdr.detectChanges();
 
-        if (res?.success === false || !res?.success) {
-          this.error = res?.error || res?.message || 'No se pudo registrar';
-          return;
-        }
-
-        this.successMessage = '¡Cuenta creada exitosamente!';
-
-        
-        setTimeout(() => {
-          if (res.token) {
-            localStorage.setItem('token', res.token);
-            this.router.navigate(['/my-teams']);
-          } else {
-            this.router.navigate(['/login']);
+          if (res?.success === false || !res?.success) {
+            this.error = res?.error || res?.message || 'No se pudo registrar';
+            this.cdr.detectChanges();
+            return;
           }
-        }, 2000);
-      },
-      error: (err) => {
-        this.loading = false;
-        this.error = err?.error?.error ||
-                    err?.error?.message ||
-                    err?.message ||
-                    'Error al registrarse';
 
-        if (err?.error?.error?.includes('ya registrado')) {
-          this.error = 'Usuario o email ya registrado';
+          this.successMessage = '¡Cuenta creada exitosamente!';
+          this.cdr.detectChanges();
+
+          setTimeout(() => {
+            if (res.token) {
+              localStorage.setItem('token', res.token);
+              this.router.navigate(['/my-teams']);
+            } else {
+              this.router.navigate(['/login']);
+            }
+          }, 2000);
+        },
+        error: (err) => {
+          this.loading = false;
+          this.cdr.detectChanges();
+
+          this.error = err?.error?.error ||
+            err?.error?.message ||
+            err?.message ||
+            'Error al registrarse';
+
+          if (err?.error?.error?.includes('ya registrado')) {
+            this.error = 'Usuario o email ya registrado';
+          }
+
+          this.cdr.detectChanges();
         }
-      }
-    });
+      });
   }
 
   togglePassword() {
     this.showPassword = !this.showPassword;
+    this.cdr.detectChanges();
   }
 
   toggleConfirmPassword() {
     this.showConfirmPassword = !this.showConfirmPassword;
+    this.cdr.detectChanges();
   }
 
   checkPasswordStrength() {
     const password = this.password;
     let strength = 0;
 
-    
     if (password.length >= 6) strength += 20;
     if (password.length >= 8) strength += 10;
 
-    
     if (/[A-Z]/.test(password)) strength += 20;
     if (/[0-9]/.test(password)) strength += 20;
     if (/[^A-Za-z0-9]/.test(password)) strength += 30;
 
     this.passwordStrength = Math.min(strength, 100);
+    this.cdr.detectChanges();
   }
 
   getStrengthColor(): string {

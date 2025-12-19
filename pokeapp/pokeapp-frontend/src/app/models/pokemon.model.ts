@@ -15,7 +15,7 @@ export interface PokemonBaseStats {
 }
 
 export interface PokemonEvolution {
-  next: string[][];  
+  next: string[][];
 }
 
 export interface PokemonAbility {
@@ -24,11 +24,11 @@ export interface PokemonAbility {
 }
 
 export interface PokemonProfile {
-  height: string;     
-  weight: string;      
-  egg: string[];       
-  ability: string[][]; 
-  gender: string;      
+  height: string;
+  weight: string;
+  egg: string[];
+  ability: string[][];
+  gender: string;
 }
 
 export interface PokemonImages {
@@ -37,27 +37,25 @@ export interface PokemonImages {
   hires: string;
 }
 
-// Interfaz principal
 export interface Pokemon {
-  _id?: string;        
-  id: number;          
+  _id?: string;
+  id: number;
   name: PokemonName;
-  type: string[];     
+  type: string[];
   base: PokemonBaseStats;
-  species?: string;   
+  species?: string;
   description?: string;
   evolution?: PokemonEvolution;
   profile?: PokemonProfile;
   image: PokemonImages;
-  createdAt?: Date;    
-  updatedAt?: Date;    
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 
 export interface PokemonsResponse {
-  success: boolean;    
+  success: boolean;
   count: number;
   data: Pokemon[];
 }
 
-// Interfaz para equipos

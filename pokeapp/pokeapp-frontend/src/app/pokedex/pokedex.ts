@@ -20,14 +20,12 @@ export class Pokedex implements OnInit {
   loading = signal(true);
   error = signal<string | null>(null);
 
-  // Dades de Pokémon
   pokemons = signal<Pokemon[]>([]);
   filteredPokemons = signal<Pokemon[]>([]);
 
   searchTerm = model('');
   selectedType = model('');
 
-  // Tipus de Pokémon disponibles
   pokemonTypes = [
     'Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice',
     'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic',
@@ -53,7 +51,7 @@ export class Pokedex implements OnInit {
 
     this.pokeappService.loadAllPokemons();
 
-  
+
     const checkInterval = setInterval(() => {
       if (this.pokeappService.loaded()) {
         const allPokemons = this.pokeappService.pokemons();
@@ -82,7 +80,7 @@ export class Pokedex implements OnInit {
   applyFilters(): void {
     let filtered = [...this.pokemons()];
 
-    
+
     const search = this.searchTerm().toLowerCase();
     if (search) {
       filtered = filtered.filter(pokemon =>
@@ -91,7 +89,7 @@ export class Pokedex implements OnInit {
       );
     }
 
-    
+
     const type = this.selectedType();
     if (type) {
       filtered = filtered.filter(pokemon =>
@@ -102,14 +100,14 @@ export class Pokedex implements OnInit {
     this.filteredPokemons.set(filtered);
   }
 
-  
+
   clearFilters(): void {
     this.searchTerm.set('');
     this.selectedType.set('');
     this.filteredPokemons.set([...this.pokemons()]);
   }
 
- 
+
   getPrimaryType(pokemon: Pokemon): string {
     return pokemon.type[0]?.toLowerCase() || 'normal';
   }
@@ -119,19 +117,19 @@ export class Pokedex implements OnInit {
     return id.toString().padStart(3, '0');
   }
 
- 
+
   refresh(): void {
     this.pokeappService.refreshPokemons();
     this.loadPokemons();
   }
 
- 
+
   onImageError(event: Event): void {
     const img = event.target as HTMLImageElement;
-    img.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png'; 
+    img.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png';
   }
 
- 
+
   getTypeColor(type: string): string {
     const colors: { [key: string]: string } = {
       'normal': '#A8A878',

@@ -35,7 +35,6 @@ const imageSchema = new mongodbInstance.Schema({
     hires: String
 }, { _id: false });
 
-// Esquema principal de Pokemon
 const pokemonSchema = new mongodbInstance.Schema({
     id: {
         type: Number,
@@ -65,7 +64,6 @@ const pokemonSchema = new mongodbInstance.Schema({
 
 export const PokemonModel = mongodbInstance.model('Pokemons', pokemonSchema);
 
-// Funcions
 export async function getAllDBPokemon() {
     console.log('Buscando pokemones...');
     const data = await PokemonModel.find().sort({ id: 1 }).lean();

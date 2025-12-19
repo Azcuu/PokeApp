@@ -51,10 +51,10 @@ export class Pokedle implements OnInit {
   rows: GuessRow[] = [];
   won = false;
 
-  
+
   hintAfter = 5;
 
- 
+
   hintGiven = false;
   hint = '';
 
@@ -67,7 +67,7 @@ export class Pokedle implements OnInit {
   }
 
   newGame() {
-  
+
     this.won = false;
     this.rows = [];
     this.input = '';
@@ -79,7 +79,7 @@ export class Pokedle implements OnInit {
 
     if (this.all.length > 0) {
       this.secret = this.pickRandomSecret(this.all);
-      this.saveProgress(); 
+      this.saveProgress();
       this.cdr.detectChanges();
     } else {
       this.loadPokemonsAndStart(true);
@@ -170,7 +170,6 @@ export class Pokedle implements OnInit {
     this.cdr.detectChanges();
   }
 
-  // ---------- load / start ----------
   private loadPokemonsAndStart(forceNewGame = false) {
     this.loading = true;
     this.error = '';
@@ -194,7 +193,7 @@ export class Pokedle implements OnInit {
               return;
             }
 
-            
+
             const restored = !forceNewGame && this.restoreProgress();
             if (!restored) {
               this.secret = this.pickRandomSecret(this.all);
@@ -220,7 +219,7 @@ export class Pokedle implements OnInit {
       });
   }
 
- 
+
   private mapFromBackend(raw: any): Poke | null {
     const id = Number(raw?.id);
     const name = typeof raw?.name?.english === 'string' ? raw.name.english : null;
@@ -263,7 +262,7 @@ export class Pokedle implements OnInit {
     return list[idx];
   }
 
-  
+
   private storageKey() {
     return 'pokedle-current-game';
   }
