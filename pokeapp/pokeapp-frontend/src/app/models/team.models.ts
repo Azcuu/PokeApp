@@ -7,10 +7,14 @@ export interface Team {
   pokemons: number[] | Pokemon[];
   creator: any;
   creatorName: string;
-  isPublic: boolean;
   tags?: string[];
   createdAt: string | Date;
   updatedAt: string | Date;
+  likes?: string[];
+  dislikes?: string[];
+  hasLiked?: boolean;
+  hasDisliked?: boolean;
+  comments?: any[];
 }
 
 export interface TeamsResponse {

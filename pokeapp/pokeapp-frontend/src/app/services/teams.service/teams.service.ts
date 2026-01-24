@@ -24,10 +24,14 @@ export interface Team {
   pokemons: PokemonInTeam[];
   creator: any;
   creatorName: string;
-  isPublic: boolean;
   tags?: string[];
   createdAt: string | Date;
   updatedAt: string | Date;
+  likes?: string[];
+  dislikes?: string[];
+  hasLiked?: boolean;
+  hasDisliked?: boolean;
+  comments?: any[];
 }
 
 export interface TeamsResponse {
@@ -57,7 +61,7 @@ export class TeamsService {
     return new HttpHeaders(token ? { Authorization: `Bearer ${token}` } : {});
   }
 
-  
+
   getAllTeams(
     page: number = 1,
     limit: number = 20,
@@ -104,6 +108,30 @@ export class TeamsService {
 
   deleteTeam(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  likeTeam(id: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${id}/like`, {}, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  dislikeTeam(id: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${id}/dislike`, {}, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  addComment(teamId: string, comment: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${teamId}/comments`, { comment }, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  deleteComment(teamId: string, commentId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${teamId}/comments/${commentId}`, {
       headers: this.getAuthHeaders()
     });
   }
