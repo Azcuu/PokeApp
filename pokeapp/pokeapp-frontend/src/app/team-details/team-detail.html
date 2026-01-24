@@ -71,17 +71,15 @@
           </div>
 
           <div class="pokemon-image">
-            <img [src]="pokemon.sprite || '/pokeball.png'"
-                 [alt]="pokemon.name"
-                 (error)="pokemon.sprite = '/pokeball.png'"
-                 class="pokemon-sprite">
+            <img [src]="pokemon.sprite || '/pokeball.png'" [alt]="pokemon.name"
+              (error)="pokemon.sprite = '/pokeball.png'" class="pokemon-sprite">
             <div class="pokemon-position">#{{ i + 1 }}</div>
           </div>
 
           <div class="pokemon-info">
             <div class="pokemon-types">
               <span class="type-badge" *ngFor="let type of getPokemonTypes(pokemon)"
-                    [class]="'type-' + type.toLowerCase()">
+                [class]="'type-' + type.toLowerCase()">
                 {{ type }}
               </span>
             </div>
@@ -92,9 +90,8 @@
                 <span>HP</span>
                 <span class="stat-value-text">{{ getPokemonStatValue(pokemon, 'HP') }}</span>
                 <div class="stat-bar">
-                  <div class="stat-fill"
-                       [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'HP'), 'HP')"
-                       [style.background]="'linear-gradient(90deg, ' + getStatColor('HP') + ', ' + getStatColor('HP') + 'dd)'">
+                  <div class="stat-fill" [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'HP'), 'HP')"
+                    [style.background]="'linear-gradient(90deg, ' + getStatColor('HP') + ', ' + getStatColor('HP') + 'dd)'">
                   </div>
                 </div>
               </div>
@@ -105,8 +102,8 @@
                 <span class="stat-value-text">{{ getPokemonStatValue(pokemon, 'Ataque') }}</span>
                 <div class="stat-bar">
                   <div class="stat-fill"
-                       [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Ataque'), 'Ataque')"
-                       [style.background]="'linear-gradient(90deg, ' + getStatColor('Ataque') + ', ' + getStatColor('Ataque') + 'dd)'">
+                    [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Ataque'), 'Ataque')"
+                    [style.background]="'linear-gradient(90deg, ' + getStatColor('Ataque') + ', ' + getStatColor('Ataque') + 'dd)'">
                   </div>
                 </div>
               </div>
@@ -117,8 +114,8 @@
                 <span class="stat-value-text">{{ getPokemonStatValue(pokemon, 'Defensa') }}</span>
                 <div class="stat-bar">
                   <div class="stat-fill"
-                       [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Defensa'), 'Defensa')"
-                       [style.background]="'linear-gradient(90deg, ' + getStatColor('Defensa') + ', ' + getStatColor('Defensa') + 'dd)'">
+                    [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Defensa'), 'Defensa')"
+                    [style.background]="'linear-gradient(90deg, ' + getStatColor('Defensa') + ', ' + getStatColor('Defensa') + 'dd)'">
                   </div>
                 </div>
               </div>
@@ -129,8 +126,8 @@
                 <span class="stat-value-text">{{ getPokemonStatValue(pokemon, 'Ataque Especial') }}</span>
                 <div class="stat-bar">
                   <div class="stat-fill"
-                       [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Ataque Especial'), 'Ataque Especial')"
-                       [style.background]="'linear-gradient(90deg, ' + getStatColor('Ataque Especial') + ', ' + getStatColor('Ataque Especial') + 'dd)'">
+                    [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Ataque Especial'), 'Ataque Especial')"
+                    [style.background]="'linear-gradient(90deg, ' + getStatColor('Ataque Especial') + ', ' + getStatColor('Ataque Especial') + 'dd)'">
                   </div>
                 </div>
               </div>
@@ -141,8 +138,8 @@
                 <span class="stat-value-text">{{ getPokemonStatValue(pokemon, 'Defensa Especial') }}</span>
                 <div class="stat-bar">
                   <div class="stat-fill"
-                       [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Defensa Especial'), 'Defensa Especial')"
-                       [style.background]="'linear-gradient(90deg, ' + getStatColor('Defensa Especial') + ', ' + getStatColor('Defensa Especial') + 'dd)'">
+                    [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Defensa Especial'), 'Defensa Especial')"
+                    [style.background]="'linear-gradient(90deg, ' + getStatColor('Defensa Especial') + ', ' + getStatColor('Defensa Especial') + 'dd)'">
                   </div>
                 </div>
               </div>
@@ -153,8 +150,8 @@
                 <span class="stat-value-text">{{ getPokemonStatValue(pokemon, 'Velocidad') }}</span>
                 <div class="stat-bar">
                   <div class="stat-fill"
-                       [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Velocidad'), 'Velocidad')"
-                       [style.background]="'linear-gradient(90deg, ' + getStatColor('Velocidad') + ', ' + getStatColor('Velocidad') + 'dd)'">
+                    [style.width.%]="getStatPercentage(getPokemonStatValue(pokemon, 'Velocidad'), 'Velocidad')"
+                    [style.background]="'linear-gradient(90deg, ' + getStatColor('Velocidad') + ', ' + getStatColor('Velocidad') + 'dd)'">
                   </div>
                 </div>
               </div>
@@ -205,6 +202,31 @@
         </div>
       </div>
     </div>
+
+    <div class="comments-section">
+      <h2><i class="fas fa-comments"></i> Comentarios</h2>
+
+      <!-- Input nuevo comentario -->
+      <div class="comment-form">
+        <textarea [(ngModel)]="newComment" placeholder="Escribe un comentario..."></textarea>
+        <button (click)="addComment()">Comentar</button>
+      </div>
+
+      <!-- Lista de comentarios -->
+      <div class="comment-list">
+        <div class="comment-item" *ngFor="let c of comments">
+          <div class="comment-header">
+            <span class="comment-user">{{ c.user?.username || 'Usuario' }}</span>
+            <span class="comment-date">{{ c.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+            <button *ngIf="c.user?._id === localStorage.getItem('userId')" (click)="removeComment(c._id)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <p class="comment-text">{{ c.text }}</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div class="footer-actions" *ngIf="!loading && !error">

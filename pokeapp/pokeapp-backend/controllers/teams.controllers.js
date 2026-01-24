@@ -3,37 +3,37 @@ import { PokemonModel } from '../models/pokemon.models.js';
 
 export async function getAllTeams(req, res) {
   try {
-    const { 
-      page = 1, 
-      limit = 20, 
-      sort = 'createdAt', 
+    const {
+      page = 1,
+      limit = 20,
+      sort = 'createdAt',
       order = 'desc',
       search = '',
       tag = ''
     } = req.query;
-    
+
     const skip = (page - 1) * limit;
     const sortOrder = order === 'desc' ? -1 : 1;
-    
-    let query = { isPublic: true };
-    
+
+    let query = {};
+
     if (search) {
       query.$text = { $search: search };
     }
-    
+
     if (tag) {
       query.tags = tag;
     }
-    
+
     const teams = await TeamModel.find(query)
       .populate('creator', 'username')
       .sort({ [sort]: sortOrder })
       .skip(skip)
       .limit(parseInt(limit))
       .lean();
-    
+
     const total = await TeamModel.countDocuments(query);
-    
+
     res.json({
       success: true,
       data: teams,
@@ -44,7 +44,7 @@ export async function getAllTeams(req, res) {
         pages: Math.ceil(total / limit)
       }
     });
-    
+
   } catch (error) {
     console.error('Error obteniendo equipos:', error);
     res.status(500).json({ error: 'Error obteniendo equipos' });
@@ -56,7 +56,7 @@ export async function getUserTeams(req, res) {
     const teams = await TeamModel.find({ creator: req.userId })
       .sort({ createdAt: -1 })
       .lean();
-    
+
     res.json({ success: true, data: teams });
   } catch (error) {
     res.status(500).json({ error: 'Error obteniendo tus equipos' });
@@ -67,19 +67,19 @@ export async function getTeamById(req, res) {
   try {
     const team = await TeamModel.findById(req.params.id)
       .populate('creator', 'username');
-    
+
     if (!team) {
       return res.status(404).json({ error: 'Equipo no encontrado' });
     }
-    
+
     const pokemonIds = team.pokemons.map(p => p.pokemonId);
-    
-    const pokemonsFull = await PokemonModel.find({ 
-      id: { $in: pokemonIds } 
+
+    const pokemonsFull = await PokemonModel.find({
+      id: { $in: pokemonIds }
     })
-    .select('id name.english image.sprite type base') 
-    .lean();
-    
+      .select('id name.english image.sprite type base')
+      .lean();
+
     const pokemonMap = new Map();
     pokemonsFull.forEach(pokemon => {
       pokemonMap.set(pokemon.id, {
@@ -87,7 +87,7 @@ export async function getTeamById(req, res) {
         base: pokemon.base || {}
       });
     });
-    
+
     const teamWithPokemonData = {
       ...team.toObject(),
       pokemons: team.pokemons.map(p => ({
@@ -96,12 +96,14 @@ export async function getTeamById(req, res) {
         base: pokemonMap.get(p.pokemonId)?.base || {}
       }))
     };
-    
-    res.json({ 
-      success: true, 
-      data: teamWithPokemonData
+
+    res.json({
+      success: true,
+      data: teamWithPokemonData,
+      hasLiked: userId ? team.likes.includes(userId) : false,
+      hasDisliked: userId ? team.dislikes.includes(userId) : false
     });
-    
+
   } catch (error) {
     console.error('Error obteniendo equipo:', error);
     res.status(500).json({ error: 'Error obteniendo equipo' });
@@ -111,39 +113,38 @@ export async function getTeamById(req, res) {
 export async function createTeam(req, res) {
   try {
     const { name, description, pokemonIds, tags, isPublic } = req.body;
-    
+
     if (pokemonIds && pokemonIds.length > 6) {
       return res.status(400).json({ error: 'Máximo 6 Pokémon por equipo' });
     }
-    
-    const pokemons = await PokemonModel.find({ 
-      id: { $in: pokemonIds } 
+
+    const pokemons = await PokemonModel.find({
+      id: { $in: pokemonIds }
     }).lean();
-    
+
     const teamPokemons = pokemons.map(p => ({
       pokemonId: p.id,
       name: p.name.english,
       sprite: p.image?.sprite || p.image?.thumbnail || ''
     }));
-    
+
     const team = new TeamModel({
       name,
       description: description || '',
       pokemons: teamPokemons,
       tags: tags || [],
-      isPublic: isPublic !== undefined ? isPublic : true,
       creator: req.userId,
       creatorName: req.username
     });
-    
+
     await team.save();
-    
+
     res.status(201).json({
       success: true,
       data: team,
       message: 'Equipo creado exitosamente'
     });
-    
+
   } catch (error) {
     console.error('Error creando equipo:', error);
     res.status(500).json({ error: 'Error creando equipo' });
@@ -168,7 +169,7 @@ export async function updateTeam(req, res) {
     if (description !== undefined) team.description = description;
     if (tags !== undefined) team.tags = tags;
 
- 
+
     if (Array.isArray(pokemonIds)) {
       if (pokemonIds.length > 6) {
         return res.status(400).json({ error: 'Máximo 6 Pokémon por equipo' });
@@ -187,7 +188,7 @@ export async function updateTeam(req, res) {
       team.pokemons = teamPokemons;
       team.markModified('pokemons');
     }
-    
+
     else if (Array.isArray(pokemons)) {
       if (pokemons.length > 6) {
         return res.status(400).json({ error: 'Máximo 6 Pokémon por equipo' });
@@ -215,30 +216,166 @@ export async function updateTeam(req, res) {
   }
 }
 
-
-
-
 export async function deleteTeam(req, res) {
   try {
     const team = await TeamModel.findById(req.params.id);
-    
+
     if (!team) {
       return res.status(404).json({ error: 'Equipo no encontrado' });
     }
-    
+
     if (team.creator.toString() !== req.userId) {
       return res.status(403).json({ error: 'No autorizado para eliminar este equipo' });
     }
-    
+
     await TeamModel.findByIdAndDelete(req.params.id);
-    
+
     res.json({
       success: true,
       message: 'Equipo eliminado exitosamente'
     });
-    
+
   } catch (error) {
     console.error('Error eliminando equipo:', error);
     res.status(500).json({ error: 'Error eliminando equipo' });
   }
 }
+
+export const addLikeToTeam = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const team = await TeamModel.findById(id);
+    if (!team) return res.status(404).json({ message: 'Team not found' });
+
+    if (team.likes.includes(userId)) {
+      return res.status(400).json({ message: 'Already liked' });
+    }
+
+    team.likes.push(userId);
+    team.dislikes = team.dislikes.filter(u => u.toString() !== userId);
+
+    await team.save();
+    res.json({
+      likes: team.likes.length
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const removeLikeFromTeam = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const team = await TeamModel.findById(id);
+    if (!team) return res.status(404).json({ message: 'Team not found' });
+
+    team.likes = team.likes.filter(u => u.toString() !== userId);
+
+    await team.save();
+    res.json({
+      likes: team.likes.length
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const addDislikeToTeam = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const team = await TeamModel.findById(id);
+    if (!team) return res.status(404).json({ message: 'Team not found' });
+
+    if (team.dislikes.includes(userId)) {
+      return res.status(400).json({ message: 'Already disliked' });
+    }
+
+    team.dislikes.push(userId);
+    team.likes = team.likes.filter(u => u.toString() !== userId);
+
+    await team.save();
+    res.json({
+      dislikes: team.dislikes.length
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const removeDislikeFromTeam = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const team = await TeamModel.findById(id);
+    if (!team) return res.status(404).json({ message: 'Team not found' });
+
+    team.dislikes = team.dislikes.filter(u => u.toString() !== userId);
+
+    await team.save();
+    res.json({
+      dislikes: team.dislikes.length
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const addCommentToTeam = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { comment } = req.body;
+    const userId = req.user.id;
+
+    if (!comment?.trim()) {
+      return res.status(400).json({ message: 'Comment is required' });
+    }
+
+    const team = await TeamModel.findById(id);
+    if (!team) return res.status(404).json({ message: 'Team not found' });
+
+    const newComment = {
+      user: userId,
+      text: comment
+    };
+
+    team.comments.push(newComment);
+    await team.save();
+    res.json({
+      comments: team.comments.sort((a, b) => b.createdAt - a.createdAt)
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const removeCommentFromTeam = async (req, res) => {
+  try {
+    const { id, commentId } = req.params;
+    const userId = req.user.id;
+
+    const team = await TeamModel.findById(id);
+    if (!team) return res.status(404).json({ message: 'Team not found' });
+
+    const comment = team.comments.id(commentId);
+    if (!comment) return res.status(404).json({ message: 'Comment not found' });
+
+    if (comment.user.toString() !== userId) {
+      return res.status(403).json({ message: 'Not authorized to delete this comment' });
+    }
+
+    comment.remove();
+    await team.save();
+    res.json({
+      comments: team.comments
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

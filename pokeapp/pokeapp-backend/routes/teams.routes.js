@@ -7,18 +7,23 @@ import {
   createTeam,
   updateTeam,
   deleteTeam,
+  addLikeToTeam,
+  removeLikeFromTeam,
+  addDislikeToTeam,
 } from '../controllers/teams.controllers.js';
 
 const router = Router();
 
-
 router.get('/', getAllTeams);
-
-
 router.get('/user', authMiddleware, getUserTeams);
+
 router.post('/', authMiddleware, createTeam);
 router.put('/:id', authMiddleware, updateTeam);
 router.delete('/:id', authMiddleware, deleteTeam);
+
 router.get('/:id', getTeamById);
+router.post('/:id/like', authMiddleware, likeTeam);
+router.post('/:id/dislike', authMiddleware, dislikeTeam);
+router.post('/:id/comment', authMiddleware, commentTeam);
 
 export default router;

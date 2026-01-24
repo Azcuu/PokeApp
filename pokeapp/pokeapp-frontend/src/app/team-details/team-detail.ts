@@ -23,6 +23,14 @@ export class TeamDetails implements OnInit {
   legendaryCount = 0;
   mythicalCount = 0;
 
+  likesCount = 0;
+  dislikesCount = 0;
+  hasLiked = false;
+  hasDisliked = false;
+
+  comments: any[] = [];
+  newComment = '';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -30,7 +38,7 @@ export class TeamDetails implements OnInit {
     private cdr: ChangeDetectorRef,
     private titleService: Title,
     private clipboard: Clipboard
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -60,6 +68,14 @@ export class TeamDetails implements OnInit {
           this.titleService.setTitle(`PokéTeams - ${this.team.name}`);
           this.checkOwnership();
           this.calculateStats();
+
+          this.likesCount = this.team.likes?.length || 0;
+          this.dislikesCount = this.team.dislikes?.length || 0;
+
+          this.hasLiked = this.team.hasLiked || false;
+          this.hasDisliked = this.team.hasDisliked || false;
+
+          this.comments = this.team.comments || [];
 
           console.log('Team loaded successfully:', this.team);
           if (this.team.pokemons && this.team.pokemons.length > 0) {
@@ -124,7 +140,7 @@ export class TeamDetails implements OnInit {
 
   getPokemonStatValue(pokemon: any, statName: string): number {
 
-  const statMap: { [key: string]: keyof typeof pokemon.base } = {
+    const statMap: { [key: string]: keyof typeof pokemon.base } = {
       'HP': 'HP',
       'Ataque': 'Attack',
       'Defensa': 'Defense',
@@ -137,7 +153,7 @@ export class TeamDetails implements OnInit {
   }
 
   getPokemonTypes(pokemon: any): string[] {
-   return pokemon.type;
+    return pokemon.type;
   }
 
   getStatPercentage(value: number, statName: string): number {
@@ -222,5 +238,70 @@ export class TeamDetails implements OnInit {
 
   reload() {
     this.loadTeam();
+  }
+
+  likeTeam() {
+    if (!this.teamId) return;
+
+    this.teamsService.addLike(this.teamId).subscribe({
+      next: (res: any) => {
+        this.hasLiked = true;
+        this.hasDisliked = false;
+        this.likesCount = res.likes;
+        this.dislikesCount = this.dislikesCount - 1;
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  dislikeTeam() {
+    if (!this.teamId) return;
+
+    this.teamsService.addDislike(this.teamId).subscribe({
+      next: (res: any) => {
+        this.hasDisliked = true;
+        this.hasLiked = false;
+        this.dislikesCount = res.dislikes;
+        this.likesCount = this.likesCount - 1;
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  removeLike() {
+    this.teamsService.removeLike(this.teamId).subscribe({
+      next: (res: any) => {
+        this.hasLiked = false;
+        this.likesCount = res.likes;
+      }
+    });
+  }
+
+  removeDislike() {
+    this.teamsService.removeDislike(this.teamId).subscribe({
+      next: (res: any) => {
+        this.hasDisliked = false;
+        this.dislikesCount = res.dislikes;
+      }
+    });
+  }
+
+  addComment() {
+    if (!this.newComment.trim()) return;
+
+    this.teamsService.addComment(this.teamId, this.newComment).subscribe({
+      next: (res: any) => {
+        this.comments = res.comments;
+        this.newComment = '';
+      }
+    });
+  }
+
+  removeComment(commentId: string) {
+    this.teamsService.removeComment(this.teamId, commentId).subscribe({
+      next: (res: any) => {
+        this.comments = res.comments;
+      }
+    });
   }
 }
