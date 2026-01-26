@@ -1,16 +1,21 @@
+/* =========================
+   TEAM CREATE PAGE
+   ========================= */
+
 .team-create-container {
   max-width: 1100px;
   margin: 24px auto;
   padding: 18px;
 }
 
+/* Typography */
 h2 {
   margin: 0 0 16px 0;
   font-size: 1.8rem;
   letter-spacing: -0.02em;
 }
 
-
+/* Form */
 form {
   border: 1px solid #2b2b2b;
   border-radius: 18px;
@@ -22,6 +27,7 @@ form {
   margin-bottom: 16px;
 }
 
+/* Inputs */
 label {
   display: block;
   font-weight: 800;
@@ -33,15 +39,13 @@ label {
 .tag-input,
 .search-input {
   width: 100%;
-  padding: 12px 12px;
+  padding: 12px;
   border-radius: 14px;
   border: 1px solid #2b2b2b;
   outline: none;
   background: rgba(0, 0, 0, 0.18);
-
-
-  color: #ffffff;
-  caret-color: #ffffff;
+  color: #fff;
+  caret-color: #fff;
 }
 
 .form-input::placeholder,
@@ -62,12 +66,16 @@ label {
   resize: vertical;
 }
 
+/* Error */
 .error-message {
   margin-top: 8px;
   color: #ff8080;
   font-size: 0.95rem;
 }
 
+/* =========================
+   POKEMON SELECT GRID
+   ========================= */
 
 .selected-pokemon-grid {
   display: grid;
@@ -88,10 +96,6 @@ label {
   background: rgba(255, 255, 255, 0.02);
 }
 
-.selected-pokemon {
-  position: relative;
-}
-
 .empty-slot {
   cursor: pointer;
   justify-content: center;
@@ -105,6 +109,7 @@ label {
   border-color: #4a4a4a;
 }
 
+/* Pokemon info */
 .pokemon-sprite {
   width: 46px;
   height: 46px;
@@ -122,6 +127,7 @@ label {
   white-space: nowrap;
 }
 
+/* Remove button */
 .remove-btn {
   position: absolute;
   top: 8px;
@@ -134,7 +140,7 @@ label {
   background: rgba(255, 80, 80, 0.16);
 }
 
-
+/* Add Pokemon */
 .add-pokemon-btn {
   margin-top: 10px;
   padding: 12px 14px;
@@ -144,12 +150,15 @@ label {
   width: 100%;
 }
 
+/* =========================
+   TAGS
+   ========================= */
 
 .tags-container {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 10px 0 10px 0;
+  margin: 10px 0;
 }
 
 .tag-option {
@@ -172,6 +181,9 @@ label {
   border-color: rgba(0, 255, 150, 0.35);
 }
 
+/* =========================
+   FORM ACTIONS
+   ========================= */
 
 .form-actions {
   display: flex;
@@ -203,6 +215,9 @@ label {
   background: rgba(255, 255, 255, 0.03);
 }
 
+/* =========================
+   MODAL
+   ========================= */
 
 .modal-overlay {
   position: fixed;
@@ -251,7 +266,7 @@ label {
 }
 
 .pokemon-search {
-  margin: 10px 0 10px 0;
+  margin: 10px 0;
 }
 
 .modal-info {
@@ -263,6 +278,10 @@ label {
   color: #ff8080;
   margin: 10px 0;
 }
+
+/* =========================
+   POKEMON SELECTOR GRID
+   ========================= */
 
 .pokemon-grid-selector {
   display: grid;
@@ -297,7 +316,7 @@ label {
   font-weight: 700;
 }
 
-/* Tipos */
+/* Types */
 .pokemon-types {
   display: flex;
   flex-wrap: wrap;
@@ -332,6 +351,9 @@ label {
 .type-fairy { background: rgba(255, 160, 220, 0.14); border-color: rgba(255, 160, 220, 0.30); }
 .type-normal { background: rgba(200, 200, 200, 0.10); border-color: rgba(200, 200, 200, 0.22); }
 
+/* =========================
+   RESPONSIVE
+   ========================= */
 
 @media (max-width: 900px) {
   .selected-pokemon-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

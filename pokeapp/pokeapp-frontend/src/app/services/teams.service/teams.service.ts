@@ -54,13 +54,12 @@ export interface TeamResponse {
 export class TeamsService {
   private apiUrl = 'http://localhost:3000/teams';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders(token ? { Authorization: `Bearer ${token}` } : {});
   }
-
 
   getAllTeams(
     page: number = 1,
@@ -83,16 +82,16 @@ export class TeamsService {
   }
 
   getTeamById(id: string): Observable<TeamResponse> {
-    return this.http.get<TeamResponse>(`${this.apiUrl}/${id}`);
+    return this.http.get<TeamResponse>(`${this.apiUrl}/${id}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
-
   getUserTeams(): Observable<{ success: boolean; data: Team[] }> {
-  return this.http.get<{ success: boolean; data: Team[] }>(`${this.apiUrl}/user`, {
-    headers: this.getAuthHeaders()
-  });
-}
-
+    return this.http.get<{ success: boolean; data: Team[] }>(`${this.apiUrl}/user`, {
+      headers: this.getAuthHeaders()
+    });
+  }
 
   createTeam(teamData: any): Observable<any> {
     return this.http.post(this.apiUrl, teamData, {
@@ -118,8 +117,20 @@ export class TeamsService {
     });
   }
 
+  deleteLikeTeam(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}/like`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
   dislikeTeam(id: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/${id}/dislike`, {}, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  deleteDislikeTeam(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}/dislike`, {
       headers: this.getAuthHeaders()
     });
   }

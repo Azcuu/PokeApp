@@ -1,15 +1,15 @@
-import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, HttpClientModule],
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrls: ['./login.css'],
 })
 export class Login {
   email = '';
@@ -23,9 +23,7 @@ export class Login {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
-    private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private router: Router
   ) {
     const savedEmail = localStorage.getItem('savedEmail');
     if (savedEmail) {
@@ -41,38 +39,31 @@ export class Login {
 
     if (!email || !password) {
       this.error = 'Introduce email y contraseña';
-      this.cdr.detectChanges();
       return;
     }
 
     if (!this.isValidEmail(email)) {
       this.error = 'Email no válido';
-      this.cdr.detectChanges();
       return;
     }
 
     this.loading = true;
-    this.cdr.detectChanges();
 
     this.http.post<any>(this.apiUrl, { email, password })
       .subscribe({
         next: (response) => {
-          console.log('Respuesta recibida:', response);
-
-          this.ngZone.run(() => {
-            this.loading = false;
-            this.cdr.detectChanges();
-          });
+          this.loading = false;
 
           if (!response?.success || !response?.token) {
             this.error = response?.error || 'Credenciales incorrectas';
-            this.cdr.detectChanges();
             return;
           }
 
           localStorage.setItem('token', response.token);
+
           if (response?.user) {
             localStorage.setItem('user', JSON.stringify(response.user));
+            localStorage.setItem('userId', response.user.id);
             localStorage.setItem('username', response.user.username);
           }
 
@@ -82,39 +73,26 @@ export class Login {
             localStorage.removeItem('savedEmail');
           }
 
-          setTimeout(() => {
-            this.router.navigate(['/my-teams']);
-          }, 100);
+          this.router.navigate(['/my-teams']);
         },
         error: (error: HttpErrorResponse) => {
-          console.log('Error recibido:', error);
+          this.loading = false;
 
-          this.ngZone.run(() => {
-            this.loading = false;
-            this.cdr.detectChanges();
-
-            if (error.status === 401) {
-              this.error = error.error?.error || 'Credenciales inválidas';
-            }
-            else if (error.status === 0) {
-              this.error = 'Error de conexión. Verifica tu internet.';
-            }
-            else if (error.status >= 500) {
-              this.error = 'Error del servidor. Intenta más tarde.';
-            }
-            else {
-              this.error = error.error?.error || error.message || 'Error desconocido';
-            }
-
-            this.cdr.detectChanges();
-          });
+          if (error.status === 401) {
+            this.error = error.error?.error || 'Credenciales inválidas';
+          } else if (error.status === 0) {
+            this.error = 'Error de conexión. Verifica tu internet.';
+          } else if (error.status >= 500) {
+            this.error = 'Error del servidor. Intenta más tarde.';
+          } else {
+            this.error = error.error?.error || error.message || 'Error desconocido';
+          }
         }
       });
   }
 
   togglePassword() {
     this.showPassword = !this.showPassword;
-    this.cdr.detectChanges();
   }
 
   private isValidEmail(email: string): boolean {

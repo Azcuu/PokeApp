@@ -2,21 +2,26 @@
   <h2>{{ isEditing ? 'Editar Equipo' : 'Crear Nuevo Equipo' }}</h2>
 
   <form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
+
+    <!-- Nombre -->
     <div class="form-group">
       <label for="name">Nombre del Equipo *</label>
       <input
-        type="text"
         id="name"
+        type="text"
         formControlName="name"
         placeholder="Ej: Mi equipo competitivo"
         class="form-input"
+      />
+      <div
+        *ngIf="teamForm.get('name')?.invalid && teamForm.get('name')?.touched"
+        class="error-message"
       >
-      <div *ngIf="teamForm.get('name')?.invalid && teamForm.get('name')?.touched"
-           class="error-message">
         El nombre es requerido (mínimo 3 caracteres)
       </div>
     </div>
 
+    <!-- Descripción -->
     <div class="form-group">
       <label for="description">Descripción</label>
       <textarea
@@ -28,57 +33,62 @@
       ></textarea>
     </div>
 
+    <!-- Pokémon -->
     <div class="form-group">
       <label>Pokémon en el equipo ({{ selectedPokemons.length }}/6) *</label>
 
       <div class="selected-pokemon-grid">
-        <div *ngFor="let pokemon of selectedPokemons; let i = index"
-             class="selected-pokemon">
-          <img [src]="pokemon.sprite" [alt]="pokemon.name" class="pokemon-sprite">
+        <div
+          *ngFor="let pokemon of selectedPokemons; let i = index"
+          class="selected-pokemon"
+        >
+          <img [src]="pokemon.sprite" [alt]="pokemon.name" class="pokemon-sprite" />
           <span class="pokemon-name">{{ pokemon.name }}</span>
-          <button type="button" (click)="removePokemon(i)" class="remove-btn">
-            ✕
-          </button>
+          <button type="button" class="remove-btn" (click)="removePokemon(i)">✕</button>
         </div>
 
-        <div *ngFor="let _ of emptySlots"
-             class="empty-slot"
-             (click)="openPokemonSelector()">
-          <span>+ Añadir Pokémon</span>
+        <div *ngFor="let _ of emptySlots" class="empty-slot" (click)="openPokemonSelector()">
+          + Añadir Pokémon
         </div>
       </div>
 
-      <button type="button" (click)="openPokemonSelector()" class="add-pokemon-btn">
+      <button type="button" class="btn btn-primary" (click)="openPokemonSelector()">
         🔍 Buscar y añadir Pokémon
       </button>
     </div>
 
+    <!-- Etiquetas -->
     <div class="form-group">
       <label>Etiquetas</label>
       <div class="tags-container">
-        <div *ngFor="let tag of availableTags"
-             class="tag-option"
-             [class.selected]="selectedTags.includes(tag)"
-             (click)="toggleTag(tag)">
+        <div
+          *ngFor="let tag of availableTags"
+          class="tag-option"
+          [class.selected]="selectedTags.includes(tag)"
+          (click)="toggleTag(tag)"
+        >
           {{ tag }}
         </div>
       </div>
     </div>
 
+    <!-- Acciones -->
     <div class="form-actions">
-      <button type="button" (click)="cancel()" class="btn btn-secondary">
-        Cancelar
-      </button>
-      <button type="submit"
-              [disabled]="teamForm.invalid || selectedPokemons.length === 0"
-              class="btn btn-primary">
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="teamForm.invalid || selectedPokemons.length === 0"
+      >
         {{ isEditing ? 'Actualizar Equipo' : 'Crear Equipo' }}
       </button>
     </div>
   </form>
 
-  <div *ngIf="showPokemonSelector" class="modal-overlay" (click)="closePokemonSelector()">
+  <!-- Modal selector -->
+  <div class="modal-overlay" *ngIf="showPokemonSelector" (click)="closePokemonSelector()">
     <div class="modal-content" (click)="$event.stopPropagation()">
+
       <div class="modal-top">
         <h3>Seleccionar Pokémon</h3>
         <button type="button" class="icon-close" (click)="closePokemonSelector()">✕</button>
@@ -91,39 +101,41 @@
           placeholder="Buscar Pokémon por nombre / id..."
           class="search-input"
           (input)="filterPokemons()"
-        >
+        />
       </div>
 
       <p class="modal-info" *ngIf="loadingPokemons">Cargando Pokémon…</p>
       <p class="modal-error" *ngIf="!loadingPokemons && errorPokemons">{{ errorPokemons }}</p>
 
       <div class="pokemon-grid-selector" *ngIf="!loadingPokemons && !errorPokemons">
-        <div *ngFor="let pokemon of filteredPokemons"
-             class="pokemon-selector-card"
-             (click)="selectPokemon(pokemon)">
+        <div
+          *ngFor="let pokemon of filteredPokemons"
+          class="pokemon-selector-card"
+          (click)="selectPokemon(pokemon)"
+        >
           <img
             [src]="pokemonCardSprite(pokemon)"
             [alt]="pokemon?.name?.english"
             class="pokemon-sprite"
             (error)="$any($event.target).style.display='none'"
-          >
+          />
           <div class="pokemon-info">
             <span class="pokemon-name">{{ pokemon.name.english }}</span>
             <span class="pokemon-id">#{{ pokemon.id }}</span>
           </div>
           <div class="pokemon-types">
-            <span *ngFor="let type of pokemon.type"
-                  class="type-badge"
-                  [class]="'type-' + (type | lowercase)">
+            <span
+              *ngFor="let type of pokemon.type"
+              class="type-badge"
+              [class]="'type-' + (type | lowercase)"
+            >
               {{ type }}
             </span>
           </div>
         </div>
       </div>
 
-      <button type="button" (click)="closePokemonSelector()" class="btn btn-secondary">
-        Cerrar
-      </button>
+      <button type="button" class="btn btn-secondary" (click)="closePokemonSelector()">Cerrar</button>
     </div>
   </div>
 </div>

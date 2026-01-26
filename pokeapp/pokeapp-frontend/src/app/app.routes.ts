@@ -52,7 +52,17 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     title: 'Create Team'
   },
-
+  {
+    path: 'teams/edit/:id',
+    loadComponent: () => import('./teams/team-edit/team-edit').then(m => m.TeamEdit),
+    canActivate: [AuthGuard],
+    title: 'Edit Team'
+  },
+  {
+    path: 'teams/:id',
+    loadComponent: () => import('./team-details/team-detail').then(m => m.TeamDetails),
+    title: 'Team Details'
+  },
 
   {
     path: 'my-teams',
@@ -61,21 +71,6 @@ export const routes: Routes = [
     title: 'My Teams'
   },
 
-
-  {
-  path: 'teams/edit/:id',
-  loadComponent: () => import('./teams/team-edit/team-edit').then(m => m.TeamEdit),
-  canActivate: [AuthGuard],
-  title: 'Edit Team'
-},
-
-
-
-  {
-    path: 'teams/:id',
-    loadComponent: () => import('./team-details/team-detail').then(m => m.TeamDetails),
-    title: 'Team Details'
-  },
-
+  // Fallback
   { path: '**', redirectTo: 'teams' }
 ];

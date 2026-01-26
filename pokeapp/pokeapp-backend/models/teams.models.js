@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import { mongodbInstance } from "../infraestructure/mongodb-connection.js";
 
-const teamSchema = new mongoose.Schema({
+const teamSchema = new mongodbInstance.Schema({
   name: {
     type: String,
     required: true,
@@ -19,18 +19,18 @@ const teamSchema = new mongoose.Schema({
     sprite: String
   }],
   creator: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongodbInstance.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
   creatorName: String,
   tags: [String],
-  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  likes: [{ type: mongodbInstance.Schema.Types.ObjectId, ref: 'User' }],
+  dislikes: [{ type: mongodbInstance.Schema.Types.ObjectId, ref: 'User' }],
   comments: [
     {
       user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongodbInstance.Schema.Types.ObjectId,
         ref: 'User',
         required: true
       },
@@ -49,7 +49,8 @@ const teamSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Índices para búsquedas rápidas
 teamSchema.index({ name: 'text', description: 'text', tags: 'text' });
 teamSchema.index({ createdAt: -1 });
 
-export const TeamModel = mongoose.model('Team', teamSchema);
+export const TeamModel = mongodbInstance.model('Teams', teamSchema, 'Teams');

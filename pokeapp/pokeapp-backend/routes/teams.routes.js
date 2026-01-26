@@ -7,12 +7,12 @@ import {
   createTeam,
   updateTeam,
   deleteTeam,
-  addLikeToTeam,
-  removeLikeFromTeam,
-  addDislikeToTeam,
-  removeDislikeFromTeam,
-  addCommentToTeam,
-  removeCommentFromTeam,
+  likeTeam,
+  removeLike,
+  dislikeTeam,
+  removeDislike,
+  addComment,
+  removeComment,
 } from '../controllers/teams.controllers.js';
 
 const router = Router();
@@ -24,15 +24,15 @@ router.post('/', authMiddleware, createTeam);
 router.put('/:id', authMiddleware, updateTeam);
 router.delete('/:id', authMiddleware, deleteTeam);
 
-router.get('/:id', getTeamById);
+router.post('/:id/like', authMiddleware, likeTeam);
+router.delete('/:id/like', authMiddleware, removeLike);
 
-router.post('/:id/like', authMiddleware, addLikeToTeam);
-router.delete('/:id/like', authMiddleware, removeLikeFromTeam);
+router.post('/:id/dislike', authMiddleware, dislikeTeam);
+router.delete('/:id/dislike', authMiddleware, removeDislike);
+router.post('/:id/comments', authMiddleware, addComment);
+router.delete('/:id/comments/:commentId', authMiddleware, removeComment);
 
-router.post('/:id/dislike', authMiddleware, addDislikeToTeam);
-router.delete('/:id/dislike', authMiddleware, removeDislikeFromTeam);
+router.get('/:id', authMiddleware, getTeamById); 
 
-router.post('/:id/comment', authMiddleware, addCommentToTeam);
-router.delete('/:id/comment/:commentId', authMiddleware, removeCommentFromTeam);
 
 export default router;

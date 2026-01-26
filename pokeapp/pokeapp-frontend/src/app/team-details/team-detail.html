@@ -218,7 +218,7 @@
           <div class="comment-header">
             <span class="comment-user">{{ c.user?.username || 'Usuario' }}</span>
             <span class="comment-date">{{ c.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
-            <button *ngIf="c.user?._id === localStorage.getItem('userId')" (click)="removeComment(c._id)">
+            <button *ngIf="c.user?._id === currentUserId" (click)="removeComment(c._id)">Eliminar
               <i class="fas fa-trash"></i>
             </button>
           </div>
@@ -230,7 +230,7 @@
   </div>
 
   <div class="footer-actions" *ngIf="!loading && !error">
-    <button class="btn-share" (click)="shareTeam()" *ngIf="team?.isPublic">
+    <button class="btn-share" (click)="shareTeam()">
       <i class="fas fa-share-alt"></i> Compartir equipo
     </button>
     <button class="btn-copy-link" (click)="copyTeamLink()">

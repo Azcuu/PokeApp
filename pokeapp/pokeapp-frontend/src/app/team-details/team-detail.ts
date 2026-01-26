@@ -4,11 +4,12 @@ import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { TeamsService, Team, PokemonInTeam } from '../services/teams.service/teams.service';
 import { Title } from '@angular/platform-browser';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-team-details',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './team-detail.html',
   styleUrls: ['./team-detail.css']
 })
@@ -40,8 +41,11 @@ export class TeamDetails implements OnInit {
     private clipboard: Clipboard
   ) { }
 
+  currentUserId: string | null = null;
+
   ngOnInit() {
     this.route.params.subscribe(params => {
+      this.currentUserId = localStorage.getItem('userId');
       this.teamId = params['id'];
       if (this.teamId) {
         this.loadTeam();
@@ -243,7 +247,7 @@ export class TeamDetails implements OnInit {
   likeTeam() {
     if (!this.teamId) return;
 
-    this.teamsService.addLike(this.teamId).subscribe({
+    this.teamsService.likeTeam(this.teamId).subscribe({
       next: (res: any) => {
         this.hasLiked = true;
         this.hasDisliked = false;
@@ -257,7 +261,7 @@ export class TeamDetails implements OnInit {
   dislikeTeam() {
     if (!this.teamId) return;
 
-    this.teamsService.addDislike(this.teamId).subscribe({
+    this.teamsService.dislikeTeam(this.teamId).subscribe({
       next: (res: any) => {
         this.hasDisliked = true;
         this.hasLiked = false;
@@ -269,7 +273,7 @@ export class TeamDetails implements OnInit {
   }
 
   removeLike() {
-    this.teamsService.removeLike(this.teamId).subscribe({
+    this.teamsService.deleteLikeTeam(this.teamId).subscribe({
       next: (res: any) => {
         this.hasLiked = false;
         this.likesCount = res.likes;
@@ -278,7 +282,7 @@ export class TeamDetails implements OnInit {
   }
 
   removeDislike() {
-    this.teamsService.removeDislike(this.teamId).subscribe({
+    this.teamsService.deleteDislikeTeam(this.teamId).subscribe({
       next: (res: any) => {
         this.hasDisliked = false;
         this.dislikesCount = res.dislikes;
@@ -298,7 +302,7 @@ export class TeamDetails implements OnInit {
   }
 
   removeComment(commentId: string) {
-    this.teamsService.removeComment(this.teamId, commentId).subscribe({
+    this.teamsService.deleteComment(this.teamId, commentId).subscribe({
       next: (res: any) => {
         this.comments = res.comments;
       }

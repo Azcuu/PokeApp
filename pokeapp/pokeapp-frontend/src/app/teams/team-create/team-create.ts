@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
-
 import { TeamsService } from '../../services/teams.service/teams.service';
 
 type PokemonApi = {
@@ -29,6 +28,7 @@ type SelectedPokemon = {
 })
 export class TeamCreate implements OnInit {
   teamForm: FormGroup;
+
   isEditing = false;
   teamId?: string;
 
@@ -36,7 +36,9 @@ export class TeamCreate implements OnInit {
   selectedTags: string[] = [];
 
   availableTags: string[] = [
-    'Competitivo','Shiny','Legendario','Starter','Monotype','Balanceado','Ofensivo','Defensivo','Rápido','Trick Room'
+    'Competitivo', 'Shiny', 'Legendario', 'Starter',
+    'Monotype', 'Balanceado', 'Ofensivo', 'Defensivo',
+    'Rápido', 'Trick Room'
   ];
 
   showPokemonSelector = false;
@@ -57,7 +59,6 @@ export class TeamCreate implements OnInit {
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {
-
     this.teamForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['']
@@ -91,13 +92,13 @@ export class TeamCreate implements OnInit {
     this.cdr.detectChanges();
 
     this.http.get<PokemonApi[]>(this.pokemonsUrl).subscribe({
-      next: (list: PokemonApi[]) => {
+      next: (list) => {
         this.allPokemons = Array.isArray(list) ? list : [];
         this.filteredPokemons = [...this.allPokemons];
         this.loadingPokemons = false;
         this.cdr.detectChanges();
       },
-      error: (e: any) => {
+      error: (e) => {
         console.error('Error cargando pokemons:', e);
         this.loadingPokemons = false;
         this.errorPokemons = 'No se pudieron cargar los Pokémon';
@@ -110,8 +111,8 @@ export class TeamCreate implements OnInit {
     if (!this.teamId) return;
 
     this.teamsService.getTeamById(this.teamId).subscribe({
-      next: (response: any) => {
-        const team = response?.data;
+      next: (res: any) => {
+        const team = res?.data;
 
         this.teamForm.patchValue({
           name: team?.name || '',
@@ -127,13 +128,11 @@ export class TeamCreate implements OnInit {
         this.selectedTags = Array.isArray(team?.tags) ? team.tags : [];
         this.cdr.detectChanges();
       },
-      error: (err: any) => {
-        console.error('Error cargando equipo:', err);
+      error: () => {
         this.router.navigate(['/teams']);
       }
     });
   }
-
 
   openPokemonSelector(): void {
     if (this.selectedPokemons.length >= 6) {
@@ -142,16 +141,13 @@ export class TeamCreate implements OnInit {
     }
     this.showPokemonSelector = true;
     this.filterPokemons();
-    this.cdr.detectChanges();
   }
 
   closePokemonSelector(): void {
     this.showPokemonSelector = false;
     this.searchTerm = '';
     this.filterPokemons();
-    this.cdr.detectChanges();
   }
-
 
   filterPokemons(): void {
     const raw = this.searchTerm.trim().toLowerCase();
@@ -161,23 +157,19 @@ export class TeamCreate implements OnInit {
       return;
     }
 
-
     const term = raw.startsWith('#') ? raw.slice(1) : raw;
-
-
     const isNumeric = /^[0-9]+$/.test(term);
 
     if (isNumeric) {
-      this.filteredPokemons = this.allPokemons.filter((p: PokemonApi) =>
+      this.filteredPokemons = this.allPokemons.filter(p =>
         String(p.id).includes(term)
       );
       return;
     }
 
-
-    this.filteredPokemons = this.allPokemons.filter((p: PokemonApi) => {
-      const en = (p?.name?.english || '').toLowerCase();
-      const jp = (p?.name?.japanese || '').toLowerCase();
+    this.filteredPokemons = this.allPokemons.filter(p => {
+      const en = (p.name.english || '').toLowerCase();
+      const jp = (p.name.japanese || '').toLowerCase();
       return en.includes(term) || jp.includes(term);
     });
   }
@@ -236,51 +228,33 @@ export class TeamCreate implements OnInit {
     const baseData = {
       name: this.teamForm.value.name,
       description: this.teamForm.value.description,
-      tags: this.selectedTags
+      tags: this.selectedTags,
+      pokemonIds: this.selectedPokemons.map(p => p.pokemonId)
     };
 
     if (!this.isEditing) {
-      const teamData = {
-        ...baseData,
-        pokemonIds: this.selectedPokemons.map(p => p.pokemonId)
-      };
-
-      this.teamsService.createTeam(teamData).subscribe({
+      this.teamsService.createTeam(baseData).subscribe({
         next: (res: any) => {
           alert('¡Equipo creado!');
           const id = res?.data?._id;
           this.router.navigate(id ? ['/teams', id] : ['/teams']);
         },
         error: (err: any) => {
-          console.error('Error creando team:', err);
           alert('Error: ' + (err.error?.error || 'Error del servidor'));
         }
       });
       return;
     }
 
-
-
-
-const updateData = {
-  name: this.teamForm.value.name,
-  description: this.teamForm.value.description,
-  tags: this.selectedTags,
-  pokemonIds: this.selectedPokemons.map(p => p.pokemonId),
-};
-
-this.teamsService.updateTeam(this.teamId!, updateData).subscribe({
-  next: () => {
-    alert('¡Equipo actualizado!');
-    this.router.navigate(['/teams', this.teamId]);
-  },
-  error: (err: any) => {
-    console.error('Error actualizando team:', err);
-    alert('Error: ' + (err.error?.error || 'Error del servidor'));
-  }
-});
-
-
+    this.teamsService.updateTeam(this.teamId!, baseData).subscribe({
+      next: () => {
+        alert('¡Equipo actualizado!');
+        this.router.navigate(['/teams', this.teamId]);
+      },
+      error: (err: any) => {
+        alert('Error: ' + (err.error?.error || 'Error del servidor'));
+      }
+    });
   }
 
   cancel(): void {

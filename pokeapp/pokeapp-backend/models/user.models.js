@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import { mongodbInstance } from "../infraestructure/mongodb-connection.js";
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongodbInstance.Schema({
   username: {
     type: String,
     required: true,
@@ -23,4 +23,4 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-export const UserModel = mongoose.model('User', userSchema);
+export const UserModel = mongodbInstance.model('Users', userSchema, 'Users');

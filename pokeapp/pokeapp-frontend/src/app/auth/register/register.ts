@@ -1,5 +1,4 @@
-// register.ts - VERSIÓN CON ChangeDetectorRef
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -29,9 +28,8 @@ export class Register {
 
   constructor(
     private auth: AuthService,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) { }
+    private router: Router
+  ) {}
 
   submit() {
     this.error = '';
@@ -73,22 +71,18 @@ export class Register {
     }
 
     this.loading = true;
-    this.cdr.detectChanges();
 
     this.auth.register(u, e, p)
       .subscribe({
         next: (res: any) => {
           this.loading = false;
-          this.cdr.detectChanges();
 
-          if (res?.success === false || !res?.success) {
+          if (!res?.success) {
             this.error = res?.error || res?.message || 'No se pudo registrar';
-            this.cdr.detectChanges();
             return;
           }
 
           this.successMessage = '¡Cuenta creada exitosamente!';
-          this.cdr.detectChanges();
 
           setTimeout(() => {
             if (res.token) {
@@ -101,7 +95,6 @@ export class Register {
         },
         error: (err) => {
           this.loading = false;
-          this.cdr.detectChanges();
 
           this.error = err?.error?.error ||
             err?.error?.message ||
@@ -111,20 +104,16 @@ export class Register {
           if (err?.error?.error?.includes('ya registrado')) {
             this.error = 'Usuario o email ya registrado';
           }
-
-          this.cdr.detectChanges();
         }
       });
   }
 
   togglePassword() {
     this.showPassword = !this.showPassword;
-    this.cdr.detectChanges();
   }
 
   toggleConfirmPassword() {
     this.showConfirmPassword = !this.showConfirmPassword;
-    this.cdr.detectChanges();
   }
 
   checkPasswordStrength() {
@@ -139,7 +128,6 @@ export class Register {
     if (/[^A-Za-z0-9]/.test(password)) strength += 30;
 
     this.passwordStrength = Math.min(strength, 100);
-    this.cdr.detectChanges();
   }
 
   getStrengthColor(): string {

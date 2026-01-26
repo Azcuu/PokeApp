@@ -37,11 +37,9 @@ export class AuthService {
     if (userStr) this.currentUserSubject.next(JSON.parse(userStr));
   }
 
-
   register(username: string, email: string, password?: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/register`, { username, email, password });
   }
-
 
   login(email: string, password: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password }).pipe(

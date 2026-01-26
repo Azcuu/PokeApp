@@ -9,7 +9,7 @@ import { TeamsService } from '../../services/teams.service/teams.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './user-teams.html',
-  styleUrl: './user-teams.css'
+  styleUrls: ['./user-teams.css']
 })
 export class UserTeams implements OnInit {
   loading = true;
@@ -17,8 +17,6 @@ export class UserTeams implements OnInit {
   teams: any[] = [];
 
   isAuthenticated = false;
-
-  tokenPresent = false;
   userId: string | null = null;
   username: string | null = null;
 
@@ -29,66 +27,44 @@ export class UserTeams implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isAuthenticated = !!localStorage.getItem('token');
-
-
-    if (!this.isAuthenticated) {
-      this.loading = false;
-      this.cdr.detectChanges();
-      return;
-    }
-
+    this.checkAuthentication();
+    if (!this.isAuthenticated) return;
     this.loadTeams();
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  reloadTeams(): void {
-    this.error = '';
-    this.loadTeams();
-  }
-
-   checkAuthentication() {
+  private checkAuthentication(): void {
     const token = localStorage.getItem('token');
     this.userId = localStorage.getItem('userId');
     this.username = localStorage.getItem('username');
 
-    console.log('Token in localStorage:', token);
-    console.log('User ID in localStorage:', this.userId);
-    console.log('Username in localStorage:', this.username);
-
-    this.tokenPresent = !!token;
     this.isAuthenticated = !!token;
 
     if (!this.isAuthenticated) {
-      this.error = 'Debes iniciar sesión para ver tus equipos';
       this.loading = false;
+      this.error = 'Debes iniciar sesión para ver tus equipos';
       this.cdr.detectChanges();
     }
   }
 
-  logout() {
-    if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+  reloadTeams(): void {
+    this.loadTeams();
+  }
 
-      localStorage.removeItem('token');
-      localStorage.removeItem('userId');
-      localStorage.removeItem('username');
+  logout(): void {
+    const ok = confirm('¿Estás seguro de que quieres cerrar sesión?');
+    if (!ok) return;
 
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
 
-      this.isAuthenticated = false;
-      this.tokenPresent = false;
-      this.userId = null;
-      this.username = null;
-      this.teams = [];
+    this.isAuthenticated = false;
+    this.userId = null;
+    this.username = null;
+    this.teams = [];
 
-
-      alert('Sesión cerrada correctamente');
-
-
-      this.router.navigate(['/my-teams']);
-    }
+    alert('Sesión cerrada correctamente');
+    this.router.navigate(['/my-teams']);
   }
 
   private loadTeams(): void {
@@ -103,22 +79,21 @@ export class UserTeams implements OnInit {
         this.cdr.detectChanges();
       },
       error: (err: any) => {
-        console.error(err);
-
-
         const msg =
           err?.error?.error ||
           err?.error?.message ||
-          (err?.status === 401 ? 'Tu sesión ha caducado. Inicia sesión de nuevo.' : 'Error cargando tus equipos.');
+          (err?.status === 401
+            ? 'Tu sesión ha caducado. Inicia sesión de nuevo.'
+            : 'Error cargando tus equipos.');
 
         this.error = msg;
         this.loading = false;
 
-
         if (err?.status === 401) {
           this.isAuthenticated = false;
           localStorage.removeItem('token');
-          localStorage.removeItem('user');
+          localStorage.removeItem('userId');
+          localStorage.removeItem('username');
         }
 
         this.cdr.detectChanges();
@@ -126,11 +101,9 @@ export class UserTeams implements OnInit {
     });
   }
 
-
   editTeam(id: string): void {
-  this.router.navigate(['/teams/edit', id]);
-}
-
+    this.router.navigate(['/teams/edit', id]);
+  }
 
   deleteTeam(id: string): void {
     if (!id) return;
@@ -140,12 +113,10 @@ export class UserTeams implements OnInit {
 
     this.teamsService.deleteTeam(id).subscribe({
       next: () => {
-
         this.teams = this.teams.filter(t => t._id !== id);
         this.cdr.detectChanges();
       },
       error: (err: any) => {
-        console.error(err);
         alert(err?.error?.error || 'Error eliminando el equipo');
       }
     });

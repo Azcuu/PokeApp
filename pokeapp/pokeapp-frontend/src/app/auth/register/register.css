@@ -1,13 +1,31 @@
+/* ==========================
+   AUTH (Login / Register)
+   ========================== */
+
 .auth {
   max-width: 420px;
   margin: 40px auto;
   padding: 30px;
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
   border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   border: 1px solid #eaeaea;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-out;
 }
 
+/* Fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Título */
 .auth h1 {
   text-align: center;
   color: #2c3e50;
@@ -30,15 +48,16 @@
   border-radius: 2px;
 }
 
+/* Form layout */
 .box {
   display: grid;
   gap: 20px;
 }
 
+/* Labels */
 label {
   font-weight: 600;
   color: #34495e;
-  margin-bottom: -8px;
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -51,15 +70,16 @@ label::before {
   font-size: 16px;
 }
 
+/* Inputs */
 input {
   padding: 12px 15px;
   border-radius: 10px;
   border: 2px solid #e0e0e0;
   font-size: 16px;
-  transition: all 0.3s ease;
   font-family: inherit;
-  background: white;
+  background: #fff;
   color: #2c3e50;
+  transition: all 0.3s ease;
 }
 
 input:focus {
@@ -74,6 +94,7 @@ input::placeholder {
   opacity: 0.8;
 }
 
+/* Password input + toggle */
 .password-container {
   position: relative;
   display: flex;
@@ -93,7 +114,6 @@ input::placeholder {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
   width: 36px;
   height: 36px;
   display: flex;
@@ -120,19 +140,19 @@ input::placeholder {
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
 }
 
+/* Icono ojo */
 .eye-icon {
-  display: inline-block;
-  transition: all 0.3s ease;
   position: relative;
   font-size: 20px;
   line-height: 1;
+  transition: all 0.3s ease;
 }
 
-.toggle-password span:not(.eye-open) {
+.eye-icon:not(.eye-open) {
   color: #7f8c8d;
 }
 
-.toggle-password span:not(.eye-open)::after {
+.eye-icon:not(.eye-open)::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -143,20 +163,18 @@ input::placeholder {
   background: #e74c3c;
   border-radius: 2px;
   opacity: 0.8;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 2px rgba(0,0,0,0.1);
 }
 
-.toggle-password span.eye-open {
+.eye-icon.eye-open {
   color: #27ae60;
-  text-shadow: 0 0 5px rgba(39, 174, 96, 0.3);
 }
 
-.toggle-password span.eye-open::after {
+.eye-icon.eye-open::after {
   opacity: 0;
   transform: translate(-50%, -50%) rotate(45deg) scale(0);
 }
 
+/* Password strength */
 .password-strength {
   margin-top: 5px;
   font-size: 12px;
@@ -182,11 +200,12 @@ input::placeholder {
   font-weight: 500;
 }
 
+/* Terms */
 .terms {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  margin: 10px 0 5px 0;
+  margin: 10px 0 5px;
   font-size: 14px;
   color: #34495e;
   line-height: 1.4;
@@ -204,7 +223,6 @@ input::placeholder {
   appearance: none;
   position: relative;
   transition: all 0.3s ease;
-  flex-shrink: 0;
 }
 
 .terms input[type="checkbox"]:checked {
@@ -223,11 +241,15 @@ input::placeholder {
   font-weight: bold;
 }
 
+.terms input[type="checkbox"]:focus-visible {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+
 .terms a {
   color: #3498db;
   text-decoration: none;
   font-weight: 500;
-  transition: all 0.3s ease;
 }
 
 .terms a:hover {
@@ -235,6 +257,7 @@ input::placeholder {
   text-decoration: underline;
 }
 
+/* Button */
 button[type="submit"] {
   padding: 14px;
   border-radius: 10px;
@@ -280,11 +303,10 @@ button[type="submit"]:active:not(:disabled) {
 button[type="submit"]:disabled {
   background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
   opacity: 0.7;
 }
 
+/* Loading spinner */
 .loading {
   opacity: 0.8;
   position: relative;
@@ -305,9 +327,12 @@ button[type="submit"]:disabled {
 }
 
 @keyframes spin {
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
+/* Alerts */
 .error {
   color: #e74c3c;
   margin: 10px 0;
@@ -318,13 +343,6 @@ button[type="submit"]:disabled {
   text-align: center;
   font-size: 14px;
   line-height: 1.4;
-  animation: shake 0.5s ease;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
 }
 
 .success {
@@ -337,9 +355,9 @@ button[type="submit"]:disabled {
   text-align: center;
   font-size: 14px;
   line-height: 1.4;
-  animation: fadeIn 0.5s ease;
 }
 
+/* Hint */
 .hint {
   margin-top: 25px;
   color: #7f8c8d;
@@ -354,7 +372,6 @@ button[type="submit"]:disabled {
   color: #3498db;
   text-decoration: none;
   font-weight: 600;
-  transition: all 0.3s ease;
   margin-left: 5px;
   padding: 2px 8px;
   border-radius: 4px;
@@ -364,10 +381,10 @@ button[type="submit"]:disabled {
 .hint a:hover {
   color: #2980b9;
   background: rgba(52, 152, 219, 0.2);
-  text-decoration: none;
   transform: translateY(-1px);
 }
 
+/* Responsive */
 @media (max-width: 480px) {
   .auth {
     margin: 20px;
@@ -378,7 +395,8 @@ button[type="submit"]:disabled {
     font-size: 24px;
   }
 
-  input, button[type="submit"] {
+  input,
+  button[type="submit"] {
     padding: 12px;
     font-size: 15px;
   }
@@ -395,34 +413,15 @@ button[type="submit"]:disabled {
     font-size: 18px;
   }
 
-  .toggle-password span:not(.eye-open)::after {
+  .eye-icon:not(.eye-open)::after {
     width: 20px;
     height: 2.5px;
   }
 }
 
-.auth {
-  animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+/* Focus visible */
 input:focus-visible,
 button:focus-visible {
   outline: 2px solid #3498db;
   outline-offset: 2px;
-}
-
-input:focus::placeholder {
-  opacity: 0.5;
-  transform: translateX(5px);
 }

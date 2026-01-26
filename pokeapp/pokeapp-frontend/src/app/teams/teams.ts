@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TeamsService, Team } from '../services/teams.service/teams.service';
@@ -15,50 +15,31 @@ export class Teams implements OnInit {
   loading = true;
   error = '';
 
-  constructor(
-    private teamsService: TeamsService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private teamsService: TeamsService) {}
 
   ngOnInit() {
-    console.log('Teams component initialized');
     this.loadTeams();
   }
 
   loadTeams() {
-    console.log('Loading teams from service...');
-
     this.teamsService.getAllTeams().subscribe({
       next: (res) => {
-        console.log('Response from getAllTeams:', res);
-
-        if (res.success) {
-          this.teams = res.data || [];
-        } else if (Array.isArray(res)) {
-          this.teams = res;
-        } else {
-          console.log('Unexpected response format:', res);
-          this.teams = [];
-        }
-
-        console.log(`Loaded ${this.teams.length} teams`);
+        // Respuesta esperada: { success: true, data: Team[] }
+        // o directamente Team[]
+        this.teams = Array.isArray(res) ? res : res.data || [];
         this.loading = false;
         this.error = '';
-
-        this.cdr.detectChanges();
-        console.log('Change detection triggered');
       },
       error: (err) => {
-        console.error('Error loading teams:', err);
+        this.loading = false;
 
         if (err.status === 0) {
-          this.error = 'No se puede conectar con el backend. Asegúrate de que esté corriendo en http://localhost:3000';
+          this.error =
+            'No se puede conectar con el backend. Asegúrate de que esté corriendo en http://localhost:3000';
         } else {
           this.error = `Error ${err.status}: ${err.message || 'No se pudieron cargar los equipos'}`;
         }
-        this.loading = false;
-        this.cdr.detectChanges();
-      }
+      },
     });
   }
 
